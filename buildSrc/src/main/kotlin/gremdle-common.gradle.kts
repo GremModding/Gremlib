@@ -22,31 +22,16 @@ java {
 
 repositories {
     mavenCentral()
-
     // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
 
     exclusiveContent {
         forRepository {
             maven {
                 name = "FabricMC"
-                url = uri("https://repo.spongepowered.org/repository/maven-public")
+                url = uri("https://maven.fabricmc.net")
             }
         }
-        filter { includeGroupAndSubgroups("org.spongepowered") }
-    }
-
-    exclusiveContent {
-        forRepositories(
-            maven {
-                name = "ParchmentMC"
-                url = uri("https://maven.parchmentmc.org/")
-            },
-            maven {
-                name = "NeoForge"
-                url = uri("https://maven.neoforged.net/releases")
-            }
-        )
-        filter { includeGroup("org.parchmentmc.data") }
+        filter { includeGroupAndSubgroups("net.fabricmc.sponge-mixin") }
     }
 
     maven {
@@ -136,8 +121,17 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             artifactId = mod_id
-            version = version + "+" + project.name
+            version = version + "+" + project.name + "-" + minecraft_version
             from(components.getByName("java"))
         }
     }
+
+    repositories {
+		listOf("Releases", "Snapshots").forEach {
+			maven("https://mvn.devos.one/${it.lowercase()}") {
+				name = "devOS$it"
+				credentials(PasswordCredentials::class)
+			}
+		}
+	}
 }

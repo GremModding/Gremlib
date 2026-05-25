@@ -1,12 +1,10 @@
 package io.siuolplex.gremlib;
 
 import io.siuolplex.gremlib.mod.GremMod;
-import io.siuolplex.gremlib.mod.submod.SubGremMod;
 import io.siuolplex.gremlib.multiloader.Loader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 
 public class Gremlib extends GremMod {
     public static Loader LOADER = null;

@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class GremPressurePlateBlock extends PressurePlateBlock {
-    public GremPressurePlateBlock(BlockSetType type, Properties settings) {
-        super(type, settings.noCollision());
+    public GremPressurePlateBlock(BlockSetType type, Properties properties) {
+        super(type, properties.noCollision());
     }
 }

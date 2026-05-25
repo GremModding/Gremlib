@@ -42,11 +42,6 @@ public class GremlibNeoforge {
 
     @SubscribeEvent
     public void onRegistration(RegisterEvent event) {
-        if (!mappedRegistries) {
-            GremModInitialization.mapRegistries();
-            mappedRegistries = true;
-        }
-
         GremModInitialization.fireRegistry(event.getRegistry());
     }
 }

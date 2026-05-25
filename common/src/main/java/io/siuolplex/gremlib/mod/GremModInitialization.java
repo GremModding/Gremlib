@@ -9,22 +9,6 @@ import java.util.List;
 public class GremModInitialization {
     public static final List<GremMod> MODS = new ArrayList<>();
 
-    public static void mapRegistries() {
-        for (GremMod mod : MODS) {
-            if (mod instanceof HasRegistration) {
-                ((HasRegistration) mod).getOrMapRegistries();
-            }
-
-            if (!mod.getSubmods().isEmpty()) {
-                for (SubGremMod subMod : mod.getSubmods()) {
-                    if (subMod instanceof HasRegistration) {
-                        ((HasRegistration) subMod).getOrMapRegistries();
-                    }
-                }
-            }
-        }
-    }
-
     public static void fireRegistry(Registry<?> registry) {
         for (GremMod mod : MODS) {
             if (mod instanceof HasRegistration) {
