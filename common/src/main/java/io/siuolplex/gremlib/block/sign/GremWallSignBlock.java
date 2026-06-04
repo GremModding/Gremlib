@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 public class GremWallSignBlock extends WallSignBlock implements GremSign {
     private final Identifier texture;
 
-    public GremWallSignBlock(WoodType type, Properties settings) {
+    public GremWallSignBlock(WoodType type, Identifier texture, Properties settings) {
         super(type, settings.noOcclusion().noCollision());
         this.texture = Identifier.fromNamespaceAndPath("wood_you_dye", "entity/signs/" + type.name());;
     }

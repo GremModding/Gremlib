@@ -17,11 +17,18 @@ neoForge {
     var at = project(":common").file("src/main/resources/META-INF/accesstransformer.cfg")
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
+        accessTransformers {
+            from(at.absolutePath)
+            publish(at)
+        }
     }
 
     val intInject = project(":common").file("interfaces.json")
     if (intInject.exists()) {
-        interfaceInjectionData.from(intInject.absolutePath)
+        interfaceInjectionData {
+            from(intInject.absolutePath)
+            publish(intInject)
+        }
     }
 
     runs {

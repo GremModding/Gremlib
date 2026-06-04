@@ -1,4 +1,7 @@
 {
+  "net/minecraft/client/renderer/entity/EntityRenderDispatcher": [
+    "io/siuolplex/gremlib/client/mixtension/AtlasManagerGetter"
+  ],
   "net/minecraft/world/entity/Entity": [
     "io/siuolplex/gremlib/world/interaction/entity/EntityWorldInteractions"
   ]
