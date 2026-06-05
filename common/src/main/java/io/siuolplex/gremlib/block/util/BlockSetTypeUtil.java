@@ -1,6 +1,6 @@
 package io.siuolplex.gremlib.block.util;
 
-import io.siuolplex.gremlib.mixin.BlockSetTypeMixin;
+import io.siuolplex.gremlib.mixin.BlockSetTypeInvoker;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
@@ -18,7 +18,7 @@ public class BlockSetTypeUtil {
                 pressurePlateSensitivity, soundType, doorClose, doorOpen, trapdoorClose, trapdoorOpen,
                 pressurePlateClickOff, pressurePlateClickOn, buttonClickOff, buttonClickOn);
 
-        return BlockSetTypeMixin.registerBlockSetType(type);
+        return BlockSetTypeInvoker.registerBlockSetType(type);
     }
 
     public static BlockSetType ofWood(String name,

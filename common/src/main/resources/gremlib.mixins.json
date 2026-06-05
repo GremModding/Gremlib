@@ -4,8 +4,7 @@
   "package": "io.siuolplex.gremlib.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "BlockEntityTypeMixin",
-    "BlockSetTypeMixin",
+    "BlockSetTypeInvoker",
     "EntityMixin",
     "FluidMixin",
     "WoodTypeMixin"
@@ -14,13 +13,13 @@
     "defaultRequire": 1
   },
   "client": [
+    "client.AbstractBoatRendererAccessor",
+    "client.AbstractBoatRendererMixin",
     "client.EntityRenderDispatcherMixin",
     "client.EntityRenderersInvoker",
     "client.HangingSignEditScreenMixin",
-    "client.HangingSignRendererMixin",
     "client.LayerDefinitionsMixin",
-    "client.ModelLayersAccessor",
-    "client.SignEditScreenMixin"
+    "client.ModelLayersAccessor"
   ],
   "mixinextras": {
     "minVersion": "0.5.0"

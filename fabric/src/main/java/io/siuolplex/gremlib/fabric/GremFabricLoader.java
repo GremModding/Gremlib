@@ -1,6 +1,8 @@
 package io.siuolplex.gremlib.fabric;
 
+import io.siuolplex.gremlib.fabric.api.block.FabricBlockAPI;
 import io.siuolplex.gremlib.multiloader.Loader;
+import io.siuolplex.gremlib.multiloader.block.LoaderBlockAPI;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -35,5 +37,10 @@ public class GremFabricLoader implements Loader {
     @Override
     public boolean isDataGenerating() {
         return System.getProperty("fabric-api.datagen") != null;
+    }
+
+    @Override
+    public LoaderBlockAPI blocks() {
+        return FabricBlockAPI.INSTANCE;
     }
 }

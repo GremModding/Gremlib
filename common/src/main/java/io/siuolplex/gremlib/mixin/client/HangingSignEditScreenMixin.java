@@ -1,12 +1,15 @@
 package io.siuolplex.gremlib.mixin.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import io.siuolplex.gremlib.block.sign.GremHangingSign;
+import io.siuolplex.gremlib.client.UsesPalettes;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,14 +20,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(HangingSignEditScreen.class)
 public class HangingSignEditScreenMixin {
 
+    @Final
     @Mutable
     @Shadow private Identifier texture;
 
+    @Unique
+    boolean gremlib$palettedSign = false;
+
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void woodYouDye$initSignTextureId(SignBlockEntity signBlockEntity, boolean bl, boolean bl2, CallbackInfo ci) {
-        if (signBlockEntity.getBlockState().getBlock() instanceof GremHangingSign sign) {
-            Identifier guiTexture = sign.getGuiTexture();
-            this.texture = Identifier.fromNamespaceAndPath(guiTexture.getNamespace(), guiTexture.getPath() + ".png");
+    private void gremlib$initSignTextureId(SignBlockEntity sign, boolean isFrontText, boolean shouldFilter, CallbackInfo ci) {
+        if (sign.getBlockState().getBlock() instanceof GremHangingSign hangingSign) {
+            Identifier guiTexture = hangingSign.getGuiTexture().texture();
+            this.texture = Identifier.fromNamespaceAndPath(guiTexture.getNamespace(), guiTexture.getPath());
+        }
+
+        if (sign.getBlockState().getBlock() instanceof UsesPalettes) {
+            gremlib$palettedSign = true;
+        }
+    }
+
+    @WrapOperation(method = "extractSignBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
+    private void gremlib$addSignSupport(GuiGraphicsExtractor instance, RenderPipeline renderPipeline, Identifier texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
+        if (gremlib$palettedSign) {
+            instance.blitSprite(renderPipeline, texture, 16, 16, 0, 0, x, y, width, height);
+        } else {
+            original.call(instance, renderPipeline, texture, x, y, u, v, width, height, textureWidth, textureHeight);
         }
     }
 }

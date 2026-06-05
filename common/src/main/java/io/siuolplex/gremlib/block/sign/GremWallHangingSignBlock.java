@@ -1,5 +1,7 @@
 package io.siuolplex.gremlib.block.sign;
 
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -8,19 +10,19 @@ public class GremWallHangingSignBlock extends WallHangingSignBlock implements Gr
     private final Identifier guiTexture;
     private final Identifier texture;
 
-    public GremWallHangingSignBlock(WoodType type, Properties settings) {
+    public GremWallHangingSignBlock(WoodType type, Properties settings, Identifier texture, Identifier guiTexture) {
         super(type, settings);
-        this.texture = Identifier.fromNamespaceAndPath("wood_you_dye", "entity/signs/hanging/" + type.name());
-        this.guiTexture = Identifier.fromNamespaceAndPath("wood_you_dye", "textures/gui/hanging_sign/" + type.name());
+        this.texture = texture;
+        this.guiTexture = guiTexture;
     }
 
     @Override
-    public Identifier getGuiTexture() {
-        return guiTexture;
+    public SpriteId getGuiTexture() {
+        return new SpriteId(Sheets.SIGN_SHEET, guiTexture);
     }
 
     @Override
-    public Identifier getTexture() {
-        return texture;
+    public SpriteId getTexture() {
+        return new SpriteId(Sheets.SIGN_SHEET, texture);
     }
 }

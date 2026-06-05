@@ -1,5 +1,9 @@
 package io.siuolplex.gremlib.block.sign;
 
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.resources.model.sprite.AtlasManager;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.state.properties.WoodType;
@@ -9,13 +13,13 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 public class GremSignBlock extends StandingSignBlock implements GremSign {
     private final Identifier texture;
 
-    public GremSignBlock(WoodType type, Properties settings) {
+    public GremSignBlock(WoodType type, Properties settings, Identifier texture) {
         super(type, settings.noOcclusion().noCollision());
-        this.texture = Identifier.fromNamespaceAndPath("wood_you_dye", "entity/signs/" + type.name());
+        this.texture = texture;
     }
 
     @Override
-    public Identifier getTexture() {
-        return texture;
+    public SpriteId getTexture() {
+        return new SpriteId(Sheets.SIGN_SHEET, texture);
     }
 }

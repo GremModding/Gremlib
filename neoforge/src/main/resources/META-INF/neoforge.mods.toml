@@ -33,3 +33,6 @@ side = "BOTH"
 
 [[mixins]]
 config="gremlib.mixins.json"
+
+[[mixins]]
+config="gremlib.neoforge.mixins.json"

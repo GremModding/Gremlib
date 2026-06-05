@@ -3,14 +3,18 @@ package io.siuolplex.gremlib.neoforge;
 import io.siuolplex.gremlib.Gremlib;
 import io.siuolplex.gremlib.mod.GremModInitialization;
 import io.siuolplex.gremlib.multiloader.Loader;
+import io.siuolplex.gremlib.neoforge.impl.BlockEntityHandler;
 import io.siuolplex.gremlib.neoforge.initializers.GremModInitalizationEvent;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoader;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLConstructModEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 @Mod(GremlibNeoforge.ID)
@@ -25,6 +29,7 @@ public class GremlibNeoforge {
     public GremlibNeoforge(IEventBus modBus) {
         this.modBus = modBus;
         modBus.register(this);
+        modBus.register(BlockEntityHandler.class);
     }
 
     @SubscribeEvent
