@@ -9,9 +9,9 @@ import net.minecraft.world.level.Level;
 import java.util.function.Supplier;
 
 public class WoodSetInfo {
-    public static WoodSetInfo OVERWORLD;
-    public static WoodSetInfo NETHER;
-    public static WoodSetInfo BAMBOO;
+    public static WoodSetInfo OVERWORLD = new WoodSetInfo(new Pair<>(true, "log"), new Pair<>(true, "wood"), new Pair<>(true, BoatType.BOAT), false);
+    public static WoodSetInfo NETHER = new WoodSetInfo(new Pair<>(true, "stem"), new Pair<>(true, "hyphae"), new Pair<>(false, null), false);
+    public static WoodSetInfo BAMBOO = new WoodSetInfo(new Pair<>(true, "block"), new Pair<>(false, null), new Pair<>(true, BoatType.RAFT), true);
 
     Pair<Boolean, String> logInfo;
     Pair<Boolean, String> woodInfo;

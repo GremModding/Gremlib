@@ -19,7 +19,9 @@
     "client.EntityRenderersInvoker",
     "client.HangingSignEditScreenMixin",
     "client.LayerDefinitionsMixin",
-    "client.ModelLayersAccessor"
+    "client.LazyLoadedImageAccessor",
+    "client.ModelLayersAccessor",
+    "client.PalettedSpriteSupplierMixin"
   ],
   "mixinextras": {
     "minVersion": "0.5.0"
