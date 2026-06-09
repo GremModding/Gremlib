@@ -18,9 +18,16 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
+        # Ok so release mode is false for now but I do want to get an actual release system ready.
         run: |
           RELEASE_MODE=${{false}} \
           ./gradlew build
+
+      - name: Publish Mod
+        run: >-
+          ./gradlew publish
+          -PdevOsSnapshotsUsername="${{ secrets.MAVEN_USER }}"
+          -PdevOsSnapshotsPassword="${{ secrets.MAVEN_PASS }}"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

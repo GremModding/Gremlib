@@ -124,8 +124,8 @@ tasks {
 }
 
 publishing {
-    var rel : String = "snapshot"
-    if (release) rel = "release"
+    var rel : String = "Snapshot"
+    if (release) rel = "Release"
 
     publications {
         register<MavenPublication>("mavenJava") {
@@ -135,10 +135,8 @@ publishing {
         }
     }
 
-
-
     repositories {
-        maven("https://mvn.devos.one/${rel}") {
+        maven("https://mvn.devos.one/${rel.lowercase()}") {
             name = "devOS${rel}"
             credentials(PasswordCredentials::class)
         }
