@@ -124,7 +124,7 @@ tasks {
 }
 
 publishing {
-    var rel : String = "Snapshot"
+    var rel : String = "Snapshots"
     if (release) rel = "Release"
 
     publications {
