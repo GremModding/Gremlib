@@ -137,7 +137,7 @@ publishing {
 
     repositories {
         maven("https://mvn.devos.one/${rel.lowercase()}") {
-            name = "devOS${rel}"
+            name = "devOS"
             credentials(PasswordCredentials::class)
         }
 	}
