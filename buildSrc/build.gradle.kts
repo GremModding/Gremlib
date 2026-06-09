@@ -1,9 +1,10 @@
 plugins {
     `kotlin-dsl`
     `maven-publish`
+    `java-gradle-plugin`
 }
 
-group = "io.siuolplex"
+group = "io.gremstudio"
 version = "1.0"
 
 repositories {
@@ -19,3 +20,12 @@ publishing {
         }
     }
 }
+
+/*gradlePlugin {
+    plugins {
+        create("gremdle") {
+            id = "io.gremstudio.gremdle"
+            implementationClass = "io.gremstudio.gremdle.GremdlePlugin"
+        }
+    }
+}*/

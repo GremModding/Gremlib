@@ -9,9 +9,14 @@ val mod_id: String by project
 val version: String by project
 val mod_name: String by project
 val mod_author: String by project
+var release: Boolean = false
 
 base {
     archivesName = "${mod_id}-${version}+${project.name}"
+}
+
+if (System.getenv().get("RELEASE_MODE") == "true") {
+    release = true
 }
 
 java {
@@ -22,6 +27,7 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
 
     exclusiveContent {
@@ -43,7 +49,7 @@ repositories {
 dependencies {
     /*if (!(project.hasProperty("gremdle.include-gremlib") && project.property("gremdle.include-gremlib")?.equals("false") == true)) {
         var gremlib_version : String = project.property("gremlib_version") as String
-        implementation("io.siuolplex:gremlib:${gremlib_version}+${project.name}")
+        implementation("io.gremstudio:gremlib:${gremlib_version}+${project.name}")
     }*/
 }
 
@@ -118,20 +124,23 @@ tasks {
 }
 
 publishing {
+    var rel : String = "snapshot"
+    if (release) rel = "release"
+
     publications {
         register<MavenPublication>("mavenJava") {
             artifactId = mod_id
-            version = version + "+" + project.name + "-" + minecraft_version
+            version = version + "+" + project.name + "-" + minecraft_version + if (release) "" else "-SNAPSHOT"
             from(components.getByName("java"))
         }
     }
 
+
+
     repositories {
-		listOf("Releases", "Snapshots").forEach {
-			maven("https://mvn.devos.one/${it.lowercase()}") {
-				name = "devOS$it"
-				credentials(PasswordCredentials::class)
-			}
-		}
+        maven("https://mvn.devos.one/${rel}") {
+            name = "devOS${rel}"
+            credentials(PasswordCredentials::class)
+        }
 	}
 }

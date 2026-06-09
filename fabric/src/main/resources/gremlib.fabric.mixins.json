@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.siuolplex.gremlib.fabric.mixin",
+  "package": "io.gremstudio.gremlib.fabric.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
   ],

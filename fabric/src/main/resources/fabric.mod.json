@@ -3,7 +3,7 @@
   "id": "gremlib",
   "version": "${version}",
   "name": "Gremlib",
-  "description": "The main library powering various mods by Siuolplex",
+  "description": "The main library powering various mods by Siuolplex and GremStudio",
   "authors": [
     {
       "name": "Siuolplex",
@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.siuolplex.gremlib.fabric.GremlibFabric"
+      "io.gremstudio.gremlib.fabric.GremlibFabric"
     ],
     "client": []
   },

@@ -45,5 +45,6 @@ loom {
 fabricApi {
     configureDataGeneration {
         client = true
+        outputDirectory = project(":common").file("src/main/generated")
     }
 }
