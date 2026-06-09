@@ -26,8 +26,8 @@ jobs:
       - name: Publish Mod
         run: >-
           ./gradlew publish
-          -PdevOsSnapshotsUsername="${{ secrets.MAVEN_USER }}"
-          -PdevOsSnapshotsPassword="${{ secrets.MAVEN_PASS }}"
+          -devOsUsername="${{ secrets.MAVEN_USER }}"
+          -devOsPassword="${{ secrets.MAVEN_PASS }}"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -37,5 +37,3 @@ jobs:
             fabric/build/libs/
             neoforge/build/libs/
             common/build/libs/
-        
-          
