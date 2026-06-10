@@ -95,6 +95,10 @@ tasks {
         }
     }
 
+    getByName<Javadoc>("javadoc") {
+        options.quiet()
+    }
+
 
    getByName<ProcessResources>("processResources") {
         var expandProps = mutableMapOf(
