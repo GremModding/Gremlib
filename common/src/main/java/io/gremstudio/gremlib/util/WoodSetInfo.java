@@ -9,37 +9,90 @@ import net.minecraft.world.level.Level;
 import java.util.function.Supplier;
 
 public class WoodSetInfo {
-    public static WoodSetInfo OVERWORLD = new WoodSetInfo(new Pair<>(true, "log"), new Pair<>(true, "wood"), new Pair<>(true, BoatType.BOAT), false);
-    public static WoodSetInfo NETHER = new WoodSetInfo(new Pair<>(true, "stem"), new Pair<>(true, "hyphae"), new Pair<>(false, null), false);
-    public static WoodSetInfo BAMBOO = new WoodSetInfo(new Pair<>(true, "block"), new Pair<>(false, null), new Pair<>(true, BoatType.RAFT), true);
+    public static WoodSetInfo OVERWORLD = new WoodSetInfo(
+            new Pair<>(true, "log"),
+            new Pair<>(true, "wood"),
+            new Pair<>(true, BoatType.BOAT),
+            false,
+            true,
+            "standard"
+    );
+
+    public static WoodSetInfo NETHER = new WoodSetInfo(
+            new Pair<>(true, "stem"),
+            new Pair<>(true, "hyphae"),
+            new Pair<>(false, null),
+            false,
+            false,
+            "nether"
+    );
+
+    public static WoodSetInfo BAMBOO = new WoodSetInfo(
+            new Pair<>(true, "block"),
+            new Pair<>(false, null),
+            new Pair<>(true, BoatType.RAFT),
+            true,
+            true,
+            "bamboo"
+    );
 
     Pair<Boolean, String> logInfo;
     Pair<Boolean, String> woodInfo;
     Pair<Boolean, BoatType> boatInfo;
     boolean doMosaic;
+    boolean canBurn;
+    String name;
 
-    public WoodSetInfo(Pair<Boolean, String> logInfo, Pair<Boolean, String> woodInfo, Pair<Boolean, BoatType> boatInfo, boolean doMosaic) {
+    public WoodSetInfo(Pair<Boolean, String> logInfo,
+                       Pair<Boolean, String> woodInfo,
+                       Pair<Boolean, BoatType> boatInfo,
+                       boolean doMosaic, boolean canBurn, String name) {
         this.logInfo = logInfo;
         this.boatInfo = boatInfo;
         this.woodInfo = woodInfo;
         this.doMosaic = doMosaic;
+        this.canBurn = canBurn;
+        this.name = name;
     }
 
-    public Pair<Boolean, String> getLogInfo() {
-        return logInfo;
+    public boolean hasLogs() {
+        return logInfo.getFirst();
     }
 
-    public Pair<Boolean, String> getWoodInfo() {
-        return woodInfo;
+    public String getLogs() {
+        return logInfo.getSecond();
     }
 
-    public Pair<Boolean, BoatType> getBoatInfo() {
-        return boatInfo;
+
+    public boolean hasWoods() {
+        return woodInfo.getFirst();
+    }
+
+    public String getWoods() {
+        return woodInfo.getSecond();
+    }
+
+
+    public boolean hasBoat() {
+        return boatInfo.getFirst();
+    }
+
+    public BoatType getBoat() {
+        return boatInfo.getSecond();
     }
 
     public boolean canDoMosaic() {
         return doMosaic;
     }
+
+    public boolean canBurn() {
+        return canBurn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 
     public enum BoatType {
         BOAT("boat", (item, type, level) -> new Boat(type, level, item), (ChestBoatFactory) (item, type, level) -> new ChestBoat(type, level, item)),

@@ -6,7 +6,6 @@ plugins {
 val java_version: Int by project
 val minecraft_version: String by project
 val mod_id: String by project
-val version: String by project
 val mod_name: String by project
 val mod_author: String by project
 

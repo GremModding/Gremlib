@@ -1,0 +1,25 @@
+{
+  "values": [
+    "minecraft:oak_planks",
+    "minecraft:spruce_planks",
+    "minecraft:birch_planks",
+    "minecraft:acacia_planks",
+    "minecraft:jungle_planks",
+    "minecraft:dark_oak_planks",
+    "minecraft:mangrove_planks",
+    "minecraft:cherry_planks",
+    "minecraft:pale_oak_planks",
+    {
+      "id": "quark:ancient_planks",
+      "required": "false"
+    },
+    {
+      "id": "quark:azalea_planks",
+      "required": "false"
+    },
+    {
+      "id": "quark:blossom_planks",
+      "required": "false"
+    }
+  ]
+}

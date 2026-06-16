@@ -6,7 +6,6 @@ plugins {
 val minecraft_version : String by project
 
 val mod_id: String by project
-val version: String by project
 val mod_name: String by project
 
 val neoforge_version : String by project

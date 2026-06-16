@@ -6,13 +6,14 @@ plugins {
 val java_version: String by project
 val minecraft_version: String by project
 val mod_id: String by project
-val version: String by project
+val mod_version: String by project
 val mod_name: String by project
 val mod_author: String by project
 var release: Boolean = false
 
 base {
-    archivesName = "${mod_id}-${version}+${project.name}"
+    version = "${mod_version}+${project.name}-${minecraft_version}" + if (release) "" else "-SNAPSHOT"
+    archivesName = "${mod_id}"
 }
 
 if (System.getenv().get("RELEASE_MODE") == "true") {
@@ -57,9 +58,9 @@ dependencies {
 // Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
 arrayOf("apiElements", "runtimeElements", "sourcesElements", "javadocElements").forEach { variant ->
     configurations.get(variant).outgoing {
-        capability("${group}:${mod_id}:${version}")
-        capability("${group}:${mod_id}:${version}+${project.name}")
-        capability("${group}:${mod_id}:${version}+${project.name}-${minecraft_version}")
+        capability("${group}:${mod_id}:${mod_version}")
+        capability("${group}:${mod_id}:${mod_version}+${project.name}")
+        capability("${group}:${mod_id}:${mod_version}+${project.name}-${minecraft_version}")
     }
 
     publishing.publications.configureEach {
@@ -96,13 +97,17 @@ tasks {
     }
 
     getByName<Javadoc>("javadoc") {
-        options.quiet()
+        if (options is CoreJavadocOptions) {
+            (options as CoreJavadocOptions).also {
+                it.addStringOption("Xdoclint:-missing", "-quiet")
+            }
+        }
     }
 
 
    getByName<ProcessResources>("processResources") {
         var expandProps = mutableMapOf(
-            "version" to version,
+            "version" to mod_version,
             //"group" to project.group, //Else we target the task's group.
             "minecraft_version" to minecraft_version
         )
@@ -134,7 +139,6 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             artifactId = mod_id
-            version = version + "+" + project.name + "-" + minecraft_version + if (release) "" else "-SNAPSHOT"
             from(components.getByName("java"))
         }
     }

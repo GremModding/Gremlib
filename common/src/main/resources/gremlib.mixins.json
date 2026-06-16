@@ -15,6 +15,7 @@
   "client": [
     "client.AbstractBoatRendererAccessor",
     "client.AbstractBoatRendererMixin",
+    "client.AtlasManagerMixin",
     "client.EntityRenderDispatcherMixin",
     "client.EntityRenderersInvoker",
     "client.HangingSignEditScreenMixin",
