@@ -28,6 +28,7 @@ jobs:
         env:
           DEVOS_USERNAME: ${{ secrets.DEVOS_USERNAME }}
           DEVOS_PASSWORD: ${{ secrets.DEVOS_PASSWORD }}
+          TEST_SECRET: ${{ secrets.FAKE_SECRET_FOR_OUTPUT_TEST }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

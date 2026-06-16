@@ -20,6 +20,12 @@ if (System.getenv().get("RELEASE_MODE") == "true") {
     release = true
 }
 
+if (providers.environmentVariable("TEST_SECRET").isPresent) {
+    var testSecret: String? = providers.environmentVariable("TEST_SECRET").orNull;
+    testSecret = testSecret?.uppercase()
+    println(testSecret)
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(java_version)
     withSourcesJar()
@@ -148,7 +154,7 @@ publishing {
             name = "devOS"
             credentials {
                 username = providers.environmentVariable("DEVOS_USERNAME").orNull ?: project.findProperty("devOSUsername")?.toString()
-                password = System.getenv("DEVOS_PASSWORD") ?: project.findProperty("devOSPassword")?.toString()
+                password = providers.environmentVariable("DEVOS_PASSWORD").orNull ?: project.findProperty("devOSPassword")?.toString()
             }
         }
 	}
