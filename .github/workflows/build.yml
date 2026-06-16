@@ -24,10 +24,10 @@ jobs:
           ./gradlew build
 
       - name: Publish Mod
-        run: >-
-          ./gradlew publish
-          -PdevOSUsername=${{ secrets.MAVEN_USER }}
-          -PdevOSPassword=${{ secrets.MAVEN_PASS }}
+        run: ./gradlew publish
+        env:
+          DEVOS_USERNAME: ${{ secrets.DEVOS_USERNAME }}
+          DEVOS_PASSWORD: ${{ secrets.DEVOS_PASSWORD }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

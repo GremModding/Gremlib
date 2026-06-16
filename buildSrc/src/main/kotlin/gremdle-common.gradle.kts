@@ -146,7 +146,10 @@ publishing {
     repositories {
         maven("https://mvn.devos.one/${rel.lowercase()}") {
             name = "devOS"
-            credentials(PasswordCredentials::class)
+            credentials {
+                username = providers.environmentVariable("DEVOS_USERNAME").orNull ?: project.findProperty("devOSUsername")?.toString()
+                password = System.getenv("DEVOS_PASSWORD") ?: project.findProperty("devOSPassword")?.toString()
+            }
         }
 	}
 }
