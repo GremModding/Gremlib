@@ -26,7 +26,7 @@ jobs:
       - name: Publish Mod
         run: ./gradlew publish
         env:
-          DEVOS_USERNAME: ${{ secrets.DEVOS_USERNAME }}
+          DEVOS_USERNAME: ${{ secrets.DEVOS_USER }}
           DEVOS_PASSWORD: ${{ secrets.DEVOS_PASSWORD }}
           TEST_SECRET: ${{ secrets.FAKE_SECRET_FOR_OUTPUT_TEST }}
 
