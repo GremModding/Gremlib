@@ -14,6 +14,8 @@ abstract class GremdleExt {
         abstract val minecraftVersion: Property<String>
         abstract val modID: Property<String>
         abstract val metadata: Property<MetadataExt>
+        abstract val upload: Property<UploadExt>
+
 
         abstract class MetadataExt {
             abstract val modName: Property<String>
@@ -23,6 +25,15 @@ abstract class GremdleExt {
 
             val authors: MutableList<Person> = ArrayList()
             val contributors: MutableList<Person> = ArrayList()
+        }
+
+        abstract class UploadExt {
+            abstract val modrinthToken: Property<String>
+
+
+            abstract val curseforgeToken: Property<String>
+
+            abstract val githubToken: Property<String>
         }
     }
 

@@ -4,6 +4,7 @@ import io.gremstudio.gremlib.Gremlib;
 import io.gremstudio.gremlib.mod.GremModInitialization;
 import io.gremstudio.gremlib.multiloader.Loader;
 import io.gremstudio.gremlib.neoforge.impl.BlockEntityHandler;
+import io.gremstudio.gremlib.neoforge.impl.NeoCreativeTabs;
 import io.gremstudio.gremlib.neoforge.initializers.GremModInitalizationEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,6 +26,7 @@ public class GremlibNeoforge {
         this.modBus = modBus;
         modBus.register(this);
         modBus.register(BlockEntityHandler.class);
+        modBus.register(NeoCreativeTabs.class);
     }
 
     @SubscribeEvent

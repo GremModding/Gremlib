@@ -22,6 +22,11 @@ public class GremWallHangingSignBlock extends WallHangingSignBlock implements Gr
     }
 
     @Override
+    public boolean isSprited() {
+        return false;
+    }
+
+    @Override
     public SpriteId getTexture() {
         return new SpriteId(Sheets.SIGN_SHEET, texture);
     }

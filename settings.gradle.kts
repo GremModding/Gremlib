@@ -42,6 +42,7 @@ plugins {
 
 rootProject.name = "gremlib"
 
+includeBuild("build-logic")
 include("common")
 include("fabric")
 include("neoforge")

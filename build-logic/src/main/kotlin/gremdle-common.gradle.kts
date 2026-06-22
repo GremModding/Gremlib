@@ -20,12 +20,6 @@ if (System.getenv().get("RELEASE_MODE") == "true") {
     release = true
 }
 
-if (providers.environmentVariable("TEST_SECRET").isPresent) {
-    var testSecret: String? = providers.environmentVariable("TEST_SECRET").orNull;
-    testSecret = testSecret?.uppercase()
-    println(testSecret)
-}
-
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(java_version)
     withSourcesJar()
@@ -50,6 +44,11 @@ repositories {
     maven {
         name = "BlameJared"
         url = uri("https://maven.blamejared.com")
+    }
+
+    maven {
+        name = "DevOS Snapshots"
+        url = uri("https://mvn.devos.one/snapshots/")
     }
 }
 

@@ -14,7 +14,7 @@ val mixin_extras_version : String by project
 neoForge {
     neoFormVersion = neoform_version
     // Automatically enable AccessTransformers if the file exists
-    val at = file("src/main/resources/META-INF/accesstransformer.cfg")
+    val at = file("src/main/resources/META-INF/common.accesstransformer.cfg")
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
         accessTransformers {

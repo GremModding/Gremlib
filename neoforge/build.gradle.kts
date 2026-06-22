@@ -1,6 +1,11 @@
+import me.modmuss50.mpp.PublishOptions
+import java.util.Locale
+import kotlin.text.replace
+
 plugins {
     id("gremdle-loader")
     id("net.neoforged.moddev")
+    id("me.modmuss50.mod-publish-plugin") version "2.0.1"
 }
 
 val minecraft_version : String by project
@@ -9,6 +14,11 @@ val mod_id: String by project
 val mod_name: String by project
 
 val neoforge_version : String by project
+
+val curseforge_id: String by project
+val modrinth_id: String by project
+val repo: String by project
+val branch: String by project
 
 neoForge {
     version = neoforge_version
@@ -60,4 +70,58 @@ neoForge {
 
 sourceSets.main.get().resources {
     srcDir (project(":common").file("src/main/generated"))
+}
+
+publishMods {
+    plugins.apply("java-library")
+
+    val publishes: PublishOptions = publishOptions {
+        changelog.set(providers.fileContents(rootProject.layout.projectDirectory.file("changelog.md")).asText)
+
+        type.set(STABLE)
+
+        this.version = project.version.toString()
+        this.displayName = (project.version.toString()).replace("+", " ").replace("-", " ").replace("neoforge", "Neoforge")
+        file = (project.tasks.named<Jar>("jar").get().archiveFile)
+
+        modLoaders.add("neoforge")
+    }.get()
+
+    curseforge("curseforgeNeo") {
+        from(publishes)
+
+        accessToken.set(
+            providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")?.toString()
+        )
+        projectId.set(curseforge_id)
+        minecraftVersions.add(minecraft_version)
+
+        changelogType.set("markdown")
+
+        javaVersions.add(JavaVersion.VERSION_25)
+
+        client.set(true)
+        server.set(true)
+
+    }
+
+    modrinth("modrinthNeo") {
+        from(publishes)
+
+        accessToken.set(
+            providers.environmentVariable("MODRINTH_TOKEN").orNull ?: project.findProperty("modrinthPAT")?.toString()
+        )
+        projectId.set(modrinth_id)
+        minecraftVersions.add(minecraft_version)
+    }
+
+    /*
+    github("ghNeo") {
+        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
+
+        file(project("neoforge"))
+        this.parent(project(":").tasks.named("publishGithubParent"))
+        //parent project(":").tasks.named("publishGithubParent")
+    }
+     */
 }

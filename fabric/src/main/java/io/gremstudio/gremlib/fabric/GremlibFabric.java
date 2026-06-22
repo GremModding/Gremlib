@@ -1,6 +1,7 @@
 package io.gremstudio.gremlib.fabric;
 
 import io.gremstudio.gremlib.Gremlib;
+import io.gremstudio.gremlib.fabric.impl.item.FabricCreativeTabs;
 import io.gremstudio.gremlib.fabric.initializers.GremModInitializer;
 import io.gremstudio.gremlib.mod.GremModInitialization;
 import net.fabricmc.api.ModInitializer;
@@ -35,5 +36,7 @@ public class GremlibFabric implements ModInitializer {
         GremModInitialization.fireRegistry(registryMap.remove(Registries.ITEM));
 
         registryMap.forEach((registryResourceKey, registry) -> GremModInitialization.fireRegistry(registry));
+
+        FabricCreativeTabs.prepareTabFilling();
     }
 }

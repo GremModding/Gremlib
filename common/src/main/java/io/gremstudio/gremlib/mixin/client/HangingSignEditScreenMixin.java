@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import io.gremstudio.gremlib.block.sign.GremHangingSign;
-import io.gremstudio.gremlib.client.UsesPalettes;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen;
 import net.minecraft.resources.Identifier;
@@ -32,17 +31,16 @@ public class HangingSignEditScreenMixin {
         if (sign.getBlockState().getBlock() instanceof GremHangingSign hangingSign) {
             Identifier guiTexture = hangingSign.getGuiTexture().texture();
             this.texture = Identifier.fromNamespaceAndPath(guiTexture.getNamespace(), guiTexture.getPath());
-        }
-
-        if (sign.getBlockState().getBlock() instanceof UsesPalettes) {
-            gremlib$palettedSign = true;
+            if (hangingSign.isSprited()) {
+                gremlib$palettedSign = true;
+            }
         }
     }
 
     @WrapOperation(method = "extractSignBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
     private void gremlib$addSignSupport(GuiGraphicsExtractor instance, RenderPipeline renderPipeline, Identifier texture, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
         if (gremlib$palettedSign) {
-            instance.blitSprite(renderPipeline, texture, 16, 16, 0, 0, x, y, width, height);
+            instance.blitSprite(renderPipeline, texture, textureWidth, textureHeight, 0, 0, x, y, width, height);
         } else {
             original.call(instance, renderPipeline, texture, x, y, u, v, width, height, textureWidth, textureHeight);
         }
