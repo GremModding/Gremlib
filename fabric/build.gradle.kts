@@ -95,7 +95,7 @@ publishMods {
         from(publishes)
 
         accessToken.set(
-            providers.environmentVariable("MODRINTH_TOKEN").orNull ?: project.findProperty("modrinthPAT")?.toString()
+            providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
         )
         projectId.set(modrinth_id)
         minecraftVersions.add(minecraft_version)

@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: ./gradlew build
         env:
-          RELEASE: ${{ inputs.release }}
+          RELEASE: "true"
 
       - name: Publish Mod
         run: ./gradlew publish

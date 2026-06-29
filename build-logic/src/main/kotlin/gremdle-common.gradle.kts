@@ -9,15 +9,11 @@ val mod_id: String by project
 val mod_version: String by project
 val mod_name: String by project
 val mod_author: String by project
-var release: Boolean = false
+var release: Boolean = providers.environmentVariable("RELEASE_MODE").getOrElse("false") == "true"
 
 base {
     version = "${mod_version}+${project.name}-${minecraft_version}" + if (release) "" else "-SNAPSHOT"
     archivesName = "${mod_id}"
-}
-
-if (providers.environmentVariable("RELEASE_MODE").getOrElse("false") == "true") {
-    release = true
 }
 
 java {
