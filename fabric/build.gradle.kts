@@ -88,7 +88,7 @@ publishMods {
         client.set(true)
         server.set(true)
 
-        this.dependencies.add("")
+        requires("fabric-api")
     }
 
     modrinth("modrinthFabric") {
@@ -101,15 +101,15 @@ publishMods {
         minecraftVersions.add(minecraft_version)
 
         projectDescription.set(providers.fileContents(rootProject.layout.projectDirectory.file("readme.md")).asText)
+
+        requires("fabric-api")
     }
 
-    /*
+
     github("ghFabric") {
         accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 
-        file(project("fabric"))
+        file = (project.tasks.named<Jar>("jar").get().archiveFile)
         this.parent(project(":").tasks.named("publishGithubParent"))
-        //parent project(":").tasks.named("publishGithubParent")
     }
-     */
 }

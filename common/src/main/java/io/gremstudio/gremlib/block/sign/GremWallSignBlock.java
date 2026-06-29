@@ -18,6 +18,6 @@ public class GremWallSignBlock extends WallSignBlock implements GremSign {
 
     @Override
     public SpriteId getTexture() {
-        return new SpriteId(Sheets.SIGN_SHEET, texture);
+        return new SpriteId(Identifier.withDefaultNamespace("textures/atlas/signs.png"), texture);
     }
 }

@@ -22,7 +22,8 @@
     "client.LayerDefinitionsMixin",
     "client.LazyLoadedImageAccessor",
     "client.ModelLayersAccessor",
-    "client.PalettedSpriteSupplierMixin"
+    "client.PalettedSpriteSupplierMixin",
+    "client.SheetsMixin"
   ],
   "mixinextras": {
     "minVersion": "0.5.0"

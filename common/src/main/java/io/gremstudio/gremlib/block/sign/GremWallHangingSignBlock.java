@@ -18,7 +18,7 @@ public class GremWallHangingSignBlock extends WallHangingSignBlock implements Gr
 
     @Override
     public SpriteId getGuiTexture() {
-        return new SpriteId(Sheets.SIGN_SHEET, guiTexture);
+        return new SpriteId(Identifier.withDefaultNamespace("textures/atlas/gui.png"), guiTexture);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class GremWallHangingSignBlock extends WallHangingSignBlock implements Gr
 
     @Override
     public SpriteId getTexture() {
-        return new SpriteId(Sheets.SIGN_SHEET, texture);
+        return new SpriteId(Identifier.withDefaultNamespace("textures/atlas/signs.png"), texture);
     }
 }

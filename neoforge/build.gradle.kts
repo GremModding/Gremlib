@@ -115,13 +115,11 @@ publishMods {
         minecraftVersions.add(minecraft_version)
     }
 
-    /*
+
     github("ghNeo") {
         accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 
-        file(project("neoforge"))
+        file = (project.tasks.named<Jar>("jar").get().archiveFile)
         this.parent(project(":").tasks.named("publishGithubParent"))
-        //parent project(":").tasks.named("publishGithubParent")
     }
-     */
 }

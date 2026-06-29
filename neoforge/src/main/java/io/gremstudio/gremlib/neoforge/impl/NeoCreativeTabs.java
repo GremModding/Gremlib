@@ -10,10 +10,10 @@ import java.util.*;
 
 public class NeoCreativeTabs {
     @SubscribeEvent
-    public void prepareTabFilling(BuildCreativeModeTabContentsEvent event) {
+    public static void prepareTabFilling(BuildCreativeModeTabContentsEvent event) {
         Map<ResourceKey<CreativeModeTab>, List<CreativeTabAPI.InsertionData>> insertionsByTab = CreativeTabAPI.getInsertionsByTab();
-        for (ResourceKey<CreativeModeTab> key : insertionsByTab.keySet()) {
-            for (CreativeTabAPI.InsertionData insertion : insertionsByTab.get(key)) {
+        if (insertionsByTab.containsKey(event.getTabKey())) {
+            for (CreativeTabAPI.InsertionData insertion : insertionsByTab.get(event.getTabKey())) {
                 switch (insertion.getPoint()) {
                     case START -> event.insertFirst(insertion.getNewEntry(), insertion.getVisibility());
                     case BEFORE -> event.insertBefore(insertion.getExistingEntry(), insertion.getNewEntry(), insertion.getVisibility());

@@ -20,7 +20,7 @@ public class GremCeilingHangingSignBlock extends CeilingHangingSignBlock impleme
 
     @Override
     public SpriteId getGuiTexture() {
-        return new SpriteId(Sheets.SIGN_SHEET, guiTexture);
+        return new SpriteId(Identifier.withDefaultNamespace("textures/atlas/gui.png"), guiTexture);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class GremCeilingHangingSignBlock extends CeilingHangingSignBlock impleme
 
     @Override
     public SpriteId getTexture() {
-        return new SpriteId(Sheets.SIGN_SHEET, texture);
+        return new SpriteId(Identifier.withDefaultNamespace("textures/atlas/signs.png"), texture);
     }
 }

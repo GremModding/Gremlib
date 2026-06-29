@@ -16,7 +16,7 @@ base {
     archivesName = "${mod_id}"
 }
 
-if (System.getenv().get("RELEASE_MODE") == "true") {
+if (providers.environmentVariable("RELEASE_MODE").getOrElse("false") == "true") {
     release = true
 }
 

@@ -8,18 +8,25 @@
     "minecraft:dark_oak_planks",
     "minecraft:mangrove_planks",
     "minecraft:cherry_planks",
-    "minecraft:pale_oak_planks",
+    {
+      "id": "minecraft:pale_oak_planks",
+      "required": false
+    },
+    {
+      "id": "minecraft:poplar_planks",
+      "required": false
+    },
     {
       "id": "quark:ancient_planks",
-      "required": "false"
+      "required": false
     },
     {
       "id": "quark:azalea_planks",
-      "required": "false"
+      "required": false
     },
     {
       "id": "quark:blossom_planks",
-      "required": "false"
+      "required": false
     }
   ]
 }
