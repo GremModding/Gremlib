@@ -19,7 +19,7 @@ jobs:
 
       - name: Build
         run: |
-          RELEASE_MODE=${{false}} \
+          RELEASE_MODE=${{False}} \
           ./gradlew build
 
       - name: Publish Mod

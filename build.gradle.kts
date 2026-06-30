@@ -18,20 +18,22 @@ val mod_version: String by project
 version = "${mod_version}+${project.name}-${minecraft_version}"
 
 publishMods {
-    github("githubParent") {
-        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
-        repository.set(repo)
-        commitish.set(branch)
+    if (project.providers.environmentVariable("publishGH").get().equals("True")) {
+        github("githubParent") {
+            accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
+            repository.set(repo)
+            commitish.set(branch)
 
-        allowEmptyFiles.set(true)
-        changelog.set(providers.fileContents(rootProject.layout.projectDirectory.file("changelog.md")).asText)
+            allowEmptyFiles.set(true)
+            changelog.set(providers.fileContents(rootProject.layout.projectDirectory.file("changelog.md")).asText)
 
-        type.set(STABLE)
+            type.set(STABLE)
 
-        this.version = project.version.toString()
-        this.displayName = (project.version.toString()).replace("+", " ").replace("-", " ").replace("fabric", "Fabric")
+            this.version = project.version.toString()
+            this.displayName =
+                (project.version.toString()).replace("+", " ").replace("-", " ").replace("fabric", "Fabric")
+        }
     }
-
 }
 
 tasks.register("uploadMod") {

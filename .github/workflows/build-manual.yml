@@ -1,4 +1,4 @@
-name: build-release.yml
+name: Manual Build
 on:
   workflow_dispatch:
     inputs:
@@ -7,6 +7,27 @@ on:
         required: false
         default: false
         type: boolean
+      publish-cf:
+        description: 'Do we publish build on Curseforge?'
+        required: false
+        default: false
+        type: boolean
+      publish-mr:
+        description: 'Do we publish build on Modrinth?'
+        required: false
+        default: false
+        type: boolean
+      publish-gh:
+        description: 'Do we publish build on Github?'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  RELEASE: ${{ inputs.release }}
+  PUBLISH_MR: ${{inputs.publish-mr}}
+  PUBLISH_CF: ${{inputs.publish-cf}}
+  PUBLISH_GH: ${{inputs.publish-gh}}
 
 jobs:
   build:
@@ -26,9 +47,6 @@ jobs:
 
       - name: Build
         run: ./gradlew build
-        env:
-          RELEASE: "true"
-
       - name: Publish Mod
         run: ./gradlew publish
         env:

@@ -1,6 +1,4 @@
 import me.modmuss50.mpp.PublishOptions
-import java.util.Locale
-import kotlin.text.replace
 
 plugins {
     id("gremdle-loader")
@@ -54,7 +52,7 @@ neoForge {
             gameDirectory = project.file("run/client")
             // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll( "--mod", mod_id, "--all", "--output", file("src/generated/resources/").getAbsolutePath(), "--existing", file("src/main/resources/").getAbsolutePath())
+            programArguments.addAll( "--mod", mod_id, "--all", "--output", file("src/generated/resources/").absolutePath, "--existing", file("src/main/resources/").absolutePath)
         }
         register("server") {
             server()
@@ -87,39 +85,46 @@ publishMods {
         modLoaders.add("neoforge")
     }.get()
 
-    curseforge("curseforgeNeo") {
-        from(publishes)
+    if (project.providers.environmentVariable("publishCF").get().equals("True")) {
+        curseforge("curseforgeNeo") {
+            from(publishes)
 
-        accessToken.set(
-            providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")?.toString()
-        )
-        projectId.set(curseforge_id)
-        minecraftVersions.add(minecraft_version)
+            accessToken.set(
+                providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")
+                    ?.toString()
+            )
+            projectId.set(curseforge_id)
+            minecraftVersions.add(minecraft_version)
 
-        changelogType.set("markdown")
+            changelogType.set("markdown")
 
-        javaVersions.add(JavaVersion.VERSION_25)
+            javaVersions.add(JavaVersion.VERSION_25)
 
-        client.set(true)
-        server.set(true)
+            client.set(true)
+            server.set(true)
 
+        }
     }
 
-    modrinth("modrinthNeo") {
-        from(publishes)
+    if (project.providers.environmentVariable("publishMR").get().equals("True")) {
+        modrinth("modrinthNeo") {
+            from(publishes)
 
-        accessToken.set(
-            providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
-        )
-        projectId.set(modrinth_id)
-        minecraftVersions.add(minecraft_version)
+            accessToken.set(
+                providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
+            )
+            projectId.set(modrinth_id)
+            minecraftVersions.add(minecraft_version)
+        }
     }
 
 
-    github("ghNeo") {
-        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
+    if (project.providers.environmentVariable("publishGH").get().equals("True")) {
+        github("ghNeo") {
+            accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 
-        file = (project.tasks.named<Jar>("jar").get().archiveFile)
-        this.parent(project(":").tasks.named("publishGithubParent"))
+            file = (project.tasks.named<Jar>("jar").get().archiveFile)
+            this.parent(project(":").tasks.named("publishGithubParent"))
+        }
     }
 }

@@ -30,7 +30,6 @@ abstract class GremdleExt {
         abstract class UploadExt {
             abstract val modrinthToken: Property<String>
 
-
             abstract val curseforgeToken: Property<String>
 
             abstract val githubToken: Property<String>

@@ -9,11 +9,11 @@ val mod_id: String by project
 val mod_version: String by project
 val mod_name: String by project
 val mod_author: String by project
-var release: Boolean = providers.environmentVariable("RELEASE_MODE").getOrElse("false") == "true"
+var release: Boolean = providers.environmentVariable("RELEASE_MODE").getOrElse("False") == "True"
 
 base {
     version = "${mod_version}+${project.name}-${minecraft_version}" + if (release) "" else "-SNAPSHOT"
-    archivesName = "${mod_id}"
+    archivesName = mod_id
 }
 
 java {
@@ -58,7 +58,7 @@ dependencies {
 // Declare capabilities on the outgoing configurations.
 // Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
 arrayOf("apiElements", "runtimeElements", "sourcesElements", "javadocElements").forEach { variant ->
-    configurations.get(variant).outgoing {
+    configurations[variant].outgoing {
         capability("${group}:${mod_id}:${mod_version}")
         capability("${group}:${mod_id}:${mod_version}+${project.name}")
         capability("${group}:${mod_id}:${mod_version}+${project.name}-${minecraft_version}")
@@ -113,11 +113,11 @@ tasks {
             "minecraft_version" to minecraft_version
         )
 
-        var jsonExpandProps = mutableMapOf<String, Any>();
+        var jsonExpandProps = mutableMapOf<String, Any>()
 
-        expandProps.forEach {
+       expandProps.forEach {
                 entry -> jsonExpandProps += mapOf(entry.key to
-                    (if (entry.value is String) entry.value.replace("\n", "\\\\n") else entry.value) as Any
+                    (entry.value.replace("\n", "\\\\n")) as Any
                 )
         }
 
@@ -134,7 +134,7 @@ tasks {
 }
 
 publishing {
-    var rel : String = "Snapshots"
+    var rel = "Snapshots"
     if (release) rel = "Release"
 
     publications {
