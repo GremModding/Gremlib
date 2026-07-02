@@ -85,7 +85,7 @@ publishMods {
         modLoaders.add("neoforge")
     }.get()
 
-    if (project.providers.environmentVariable("publishCF").get().equals("True")) {
+    if (project.providers.environmentVariable("publishCF").getOrElse("False").equals("True")) {
         curseforge("curseforgeNeo") {
             from(publishes)
 
@@ -106,7 +106,7 @@ publishMods {
         }
     }
 
-    if (project.providers.environmentVariable("publishMR").get().equals("True")) {
+    if (project.providers.environmentVariable("publishMR").getOrElse("False").equals("True")) {
         modrinth("modrinthNeo") {
             from(publishes)
 
@@ -119,7 +119,7 @@ publishMods {
     }
 
 
-    if (project.providers.environmentVariable("publishGH").get().equals("True")) {
+    if (project.providers.environmentVariable("publishGH").getOrElse("False").equals("True")) {
         github("ghNeo") {
             accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 

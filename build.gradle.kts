@@ -18,7 +18,7 @@ val mod_version: String by project
 version = "${mod_version}+${project.name}-${minecraft_version}"
 
 publishMods {
-    if (project.providers.environmentVariable("publishGH").get().equals("True")) {
+    if (project.providers.environmentVariable("publishGH").getOrElse("False").equals("True")) {
         github("githubParent") {
             accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
             repository.set(repo)

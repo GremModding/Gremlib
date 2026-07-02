@@ -5,7 +5,6 @@ import io.gremstudio.gremlib.multiloader.Loader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class Gremlib extends GremMod {
     public static Loader LOADER = null;
     private final Logger LOGGER = LoggerFactory.getLogger("Gremlib");

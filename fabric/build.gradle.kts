@@ -72,7 +72,7 @@ publishMods {
         modLoaders = listOf("fabric", "quilt")
     }.get()
 
-    if (project.providers.environmentVariable("publishCF").get().equals("True")) {
+    if (project.providers.environmentVariable("publishCF").getOrElse("False").equals("True")) {
         curseforge("curseforgeFabric") {
             from(publishes)
 
@@ -94,7 +94,7 @@ publishMods {
         }
     }
 
-    if (project.providers.environmentVariable("publishMR").get().equals("True")) {
+    if (project.providers.environmentVariable("publishMR").getOrElse("False").equals("True")) {
         modrinth("modrinthFabric") {
             from(publishes)
 
@@ -110,12 +110,12 @@ publishMods {
         }
     }
 
-    if (project.providers.environmentVariable("publishGH").get().equals("True")) {
+    if (project.providers.environmentVariable("publishGH").getOrElse("False").equals("True")) {
         github("ghFabric") {
             accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 
             file = (project.tasks.named<Jar>("jar").get().archiveFile)
             this.parent(project(":").tasks.named("publishGithubParent"))
         }
-    }x
+    }
 }
