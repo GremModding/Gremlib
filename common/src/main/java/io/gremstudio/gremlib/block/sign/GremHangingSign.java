@@ -1,8 +1,8 @@
 package io.gremstudio.gremlib.block.sign;
 
-import net.minecraft.client.resources.model.sprite.SpriteId;
+import net.minecraft.client.resources.model.Material;
 
 public interface GremHangingSign extends GremSign {
-    SpriteId getGuiTexture();
+    Material getGuiTexture();
     boolean isSprited();
 }

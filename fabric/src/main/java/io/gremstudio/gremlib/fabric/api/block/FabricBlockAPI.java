@@ -11,7 +11,7 @@ public class FabricBlockAPI implements LoaderBlockAPI {
     // Fabric thank you for the elegant solution that Neo should be doing.
     @Override
     public void addBlockToBE(BlockEntityType<?> be, Block block) {
-        be.addValidBlock(block);
+        be.addSupportedBlock(block);
     }
 
     @Override

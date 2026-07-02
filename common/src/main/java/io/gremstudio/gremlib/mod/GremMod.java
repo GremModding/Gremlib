@@ -1,7 +1,7 @@
 package io.gremstudio.gremlib.mod;
 
 import io.gremstudio.gremlib.mod.submod.SubGremMod;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -20,8 +20,8 @@ public abstract class GremMod {
 
     public abstract Logger getLogger();
 
-    public Identifier createId(String path) {
-        return Identifier.fromNamespaceAndPath(getModID(), path);
+    public ResourceLocation createId(String path) {
+        return ResourceLocation.fromNamespaceAndPath(getModID(), path);
     }
 
     public static class GremModReinitError extends Error {

@@ -3,7 +3,7 @@ import java.util.Locale
 
 plugins {
     id("gremdle-loader")
-    id("net.fabricmc.fabric-loom")
+    id("fabric-loom")
     id("me.modmuss50.mod-publish-plugin") version "2.0.1"
 }
 
@@ -22,8 +22,12 @@ val branch: String by project
 
 dependencies {
     minecraft("com.mojang:minecraft:${minecraft_version}")
-    implementation ("net.fabricmc:fabric-loader:${fabric_loader_version}")
-    implementation ("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${minecraft_version}")
+    mappings (loom.layered {
+        officialMojangMappings()
+    })
+
+    modImplementation ("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    modImplementation ("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${minecraft_version}")
 }
 
 loom {
@@ -72,7 +76,7 @@ publishMods {
         modLoaders = listOf("fabric", "quilt")
     }.get()
 
-    if (project.providers.environmentVariable("publishCF").get().equals("True")) {
+    if (project.providers.environmentVariable("publishCF").getOrElse("False") == "True") {
         curseforge("curseforgeFabric") {
             from(publishes)
 
@@ -94,7 +98,7 @@ publishMods {
         }
     }
 
-    if (project.providers.environmentVariable("publishMR").get().equals("True")) {
+    if (project.providers.environmentVariable("publishMR").getOrElse("False") == "True") {
         modrinth("modrinthFabric") {
             from(publishes)
 
@@ -110,12 +114,12 @@ publishMods {
         }
     }
 
-    if (project.providers.environmentVariable("publishGH").get().equals("True")) {
+    if (project.providers.environmentVariable("publishGH").getOrElse("False") == "True") {
         github("ghFabric") {
             accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 
             file = (project.tasks.named<Jar>("jar").get().archiveFile)
             this.parent(project(":").tasks.named("publishGithubParent"))
         }
-    }x
+    }
 }

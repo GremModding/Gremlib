@@ -27,7 +27,7 @@ side = "BOTH"
 [[dependencies.gremlib]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[26.0, 26.2]"
+versionRange = "[1.21.0, 1.21.1]"
 ordering = "NONE"
 side = "BOTH"
 

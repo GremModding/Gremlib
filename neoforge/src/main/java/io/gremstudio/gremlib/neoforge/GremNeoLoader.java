@@ -13,12 +13,12 @@ import java.nio.file.Path;
 public final class GremNeoLoader implements Loader {
     @Override
     public boolean isDevMode() {
-        return !FMLLoader.getCurrent().isProduction();
+        return !FMLLoader.isProduction();
     }
 
     @Override
     public boolean isClient() {
-        return FMLLoader.getCurrent().getDist() != Dist.DEDICATED_SERVER;
+        return FMLLoader.getDist() != Dist.DEDICATED_SERVER;
     }
 
     @Override
@@ -28,7 +28,7 @@ public final class GremNeoLoader implements Loader {
 
     @Override
     public Path getGameDir() {
-        return FMLLoader.getCurrent().getGameDir();
+        return FMLLoader.getGamePath();
     }
 
     @Override

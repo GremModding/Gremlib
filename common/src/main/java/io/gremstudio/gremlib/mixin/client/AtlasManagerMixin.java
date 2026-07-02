@@ -1,7 +1,8 @@
 package io.gremstudio.gremlib.mixin.client;
 
 import io.gremstudio.gremlib.Gremlib;
-import net.minecraft.client.resources.model.sprite.AtlasManager;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -10,23 +11,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-@Mixin(AtlasManager.class)
+@Mixin(ModelManager.class)
 public class AtlasManagerMixin {
     @Shadow
-    @Mutable
     @Final
-    private static List<AtlasManager.AtlasConfig> KNOWN_ATLASES;
+    @Mutable
+    private static Map<ResourceLocation, ResourceLocation> VANILLA_ATLASES;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void gremlib$addAtlases(CallbackInfo ci) {
-        KNOWN_ATLASES = new ArrayList<>(KNOWN_ATLASES);
-        KNOWN_ATLASES.add(new AtlasManager.AtlasConfig(
-                Gremlib.INSTANCE.createId("textures/atlas/boats.png"),
-                Gremlib.INSTANCE.createId("boats"),
-                false
-        ));
+        HashMap<ResourceLocation, ResourceLocation> map = new HashMap<>(VANILLA_ATLASES);
+        map.put(Gremlib.INSTANCE.createId("textures/atlas/boats.png"), Gremlib.INSTANCE.createId("boats"));
+        VANILLA_ATLASES = map;
     }
 }

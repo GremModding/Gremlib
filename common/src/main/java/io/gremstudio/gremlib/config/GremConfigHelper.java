@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 import io.gremstudio.gremlib.config.GremConfig.Entry;
 import io.gremstudio.gremlib.config.GremConfig.ValueAdapter;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 // GremConfig is based on https://github.com/khazoda-mods/khazodacore/blob/26.1/common/src/main/java/com/khazoda/core/config/KhazConfigHelper.java
 // Explicit permission to use this has been granted.

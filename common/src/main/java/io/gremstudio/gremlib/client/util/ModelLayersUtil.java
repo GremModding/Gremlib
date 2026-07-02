@@ -2,8 +2,7 @@ package io.gremstudio.gremlib.client.util;
 
 import io.gremstudio.gremlib.mixin.client.ModelLayersAccessor;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.renderer.entity.ArmorModelSet;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModelLayersUtil {
     public static ModelLayerLocation register(ModelLayerLocation location) {
@@ -14,19 +13,11 @@ public class ModelLayersUtil {
         }
     }
 
-    public static ModelLayerLocation register(Identifier model, String layer) {
+    public static ModelLayerLocation register(ResourceLocation model, String layer) {
         return register(new ModelLayerLocation(model, layer));
     }
 
-    public static ModelLayerLocation register(Identifier model) {
+    public static ModelLayerLocation register(ResourceLocation model) {
         return register(model, "main");
-    }
-
-    public static ArmorModelSet<ModelLayerLocation> registerArmorSet(Identifier model) {
-        return new ArmorModelSet<>(
-                register(model, "helmet"),
-                register(model, "chestplate"),
-                register(model, "leggings"),
-                register(model, "boots"));
     }
 }

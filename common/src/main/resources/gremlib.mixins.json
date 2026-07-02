@@ -2,21 +2,16 @@
   "required": true,
   "minVersion": "0.8",
   "package": "io.gremstudio.gremlib.mixin",
-  "compatibilityLevel": "JAVA_25",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockSetTypeInvoker",
-    "EntityMixin",
-    "FluidMixin",
     "WoodTypeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "client.AbstractBoatRendererAccessor",
-    "client.AbstractBoatRendererMixin",
     "client.AtlasManagerMixin",
-    "client.EntityRenderDispatcherMixin",
     "client.EntityRenderersInvoker",
     "client.HangingSignEditScreenMixin",
     "client.LayerDefinitionsMixin",
