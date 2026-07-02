@@ -24,7 +24,7 @@ on:
         type: boolean
 
 env:
-  RELEASE: ${{ inputs.release }}
+  RELEASE_MODE: ${{ inputs.release }}
   PUBLISH_MR: ${{inputs.publish-mr}}
   PUBLISH_CF: ${{inputs.publish-cf}}
   PUBLISH_GH: ${{inputs.publish-gh}}
