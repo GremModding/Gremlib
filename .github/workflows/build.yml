@@ -1,5 +1,8 @@
 name: Build Mod
-on: [ pull_request, push ]
+on: [ push ]
+
+env:
+  RELEASE_MODE: "False"
 
 jobs:
   build:
@@ -18,9 +21,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: |
-          RELEASE_MODE=${{False}} \
-          ./gradlew build
+        run: ./gradlew build
 
       - name: Publish Mod
         run: ./gradlew publish

@@ -24,7 +24,7 @@ on:
         type: boolean
 
 env:
-  RELEASE: ${{ inputs.release }}
+  RELEASE_MODE: ${{ inputs.release }}
   PUBLISH_MR: ${{inputs.publish-mr}}
   PUBLISH_CF: ${{inputs.publish-cf}}
   PUBLISH_GH: ${{inputs.publish-gh}}
@@ -36,11 +36,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java 25
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '25'
+          java-version: '21'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4

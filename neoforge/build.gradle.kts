@@ -85,46 +85,39 @@ publishMods {
         modLoaders.add("neoforge")
     }.get()
 
-    if (project.providers.environmentVariable("publishCF").getOrElse("False") == "True") {
-        curseforge("curseforgeNeo") {
-            from(publishes)
+    curseforge("curseforgeNeo") {
+        from(publishes)
 
-            accessToken.set(
-                providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")
-                    ?.toString()
-            )
-            projectId.set(curseforge_id)
-            minecraftVersions.add(minecraft_version)
+        accessToken.set(
+            providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")
+                ?.toString()
+        )
+        projectId.set(curseforge_id)
+        minecraftVersions.add(minecraft_version)
 
-            changelogType.set("markdown")
+        changelogType.set("markdown")
 
-            javaVersions.add(JavaVersion.VERSION_25)
+        javaVersions.add(JavaVersion.VERSION_25)
 
-            client.set(true)
-            server.set(true)
+        client.set(true)
+        server.set(true)
 
-        }
     }
 
-    if (project.providers.environmentVariable("publishMR").getOrElse("False") == "True") {
-        modrinth("modrinthNeo") {
-            from(publishes)
+    modrinth("modrinthNeo") {
+        from(publishes)
 
-            accessToken.set(
-                providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
-            )
-            projectId.set(modrinth_id)
-            minecraftVersions.add(minecraft_version)
-        }
+        accessToken.set(
+            providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
+        )
+        projectId.set(modrinth_id)
+        minecraftVersions.add(minecraft_version)
     }
 
+    github("ghNeo") {
+        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
 
-    if (project.providers.environmentVariable("publishGH").getOrElse("False") == "True") {
-        github("ghNeo") {
-            accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
-
-            file = (project.tasks.named<Jar>("jar").get().archiveFile)
-            this.parent(project(":").tasks.named("publishGithubParent"))
-        }
+        file = (project.tasks.named<Jar>("jar").get().archiveFile)
+        this.parent(project(":").tasks.named("publishGithubParent"))
     }
 }
