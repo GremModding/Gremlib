@@ -4,6 +4,7 @@
   "package": "io.gremstudio.gremlib.fabric.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "CreativeTabAPIMixin"
   ],
   "injectors": {
     "defaultRequire": 1

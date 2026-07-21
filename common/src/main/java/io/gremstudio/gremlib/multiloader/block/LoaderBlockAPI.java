@@ -3,9 +3,6 @@ package io.gremstudio.gremlib.multiloader.block;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-/**
- * Boilerplate block api stuff thats shared amongst the loaders.
- */
 public interface LoaderBlockAPI {
     /**
      * Adds a block to a block entity.
@@ -25,9 +22,10 @@ public interface LoaderBlockAPI {
 
     /**
      * Adds to the Strippable map in AxeItem.
-     *
-     * Yes I know there's a datamap for this on Neoforge, no I am not going to use it do you know how annoying it is to maintain a datamap alongside just a regular in-code solution?
+     * May be replaced if needed.   
      */
+
+    // Yes I know there's a datamap for this on Neoforge, no I am not going to use it do you know how annoying it is to maintain a datamap alongside just a regular in-code solution?
     void addToStrippables(Block input, Block output);
 
 }

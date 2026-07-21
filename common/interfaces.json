@@ -4,5 +4,8 @@
   ],
   "net/minecraft/world/entity/Entity": [
     "io/gremstudio/gremlib/world/interaction/entity/EntityWorldInteractions"
+  ],
+  "net/minecraft/world/item/Item": [
+    "io/gremstudio/gremlib/world/interaction/item/ItemWorldInteractions"
   ]
 }

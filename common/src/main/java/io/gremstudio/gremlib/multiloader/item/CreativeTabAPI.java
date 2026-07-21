@@ -1,15 +1,14 @@
 package io.gremstudio.gremlib.multiloader.item;
 
-import com.mojang.datafixers.util.Either;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class CreativeTabAPI {
@@ -51,6 +50,10 @@ public class CreativeTabAPI {
 
     public static void insertEnd(ResourceKey<CreativeModeTab> tab, Supplier<ItemStack> newEntry) {
         insert(new InsertionData(tab, newEntry, InsertionPoint.END));
+    }
+
+    public static CreativeModeTab createTab(Function<CreativeModeTab.Builder, CreativeModeTab> tabFunc) {
+        throw new IllegalAccessError("IMPLEMENTED IN MIXIN");
     }
 
     public static Map<ResourceKey<CreativeModeTab>, List<InsertionData>> getInsertionsByTab() {

@@ -6,7 +6,6 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 
-// Might be some overlap, but I think its fair.
 public interface EntityWorldInteractions {
     // Block Interactions
     default void gremlib$onFrozen(int ticksFrozen) {}
@@ -22,10 +21,10 @@ public interface EntityWorldInteractions {
     // Inter-Entity Interactions
 
     // Misc Interactions
-    default void gremlib$onBurnt() {}
-    default void gremlib$onExplosion(Explosion explosion) {}
+    default void gremlib$onBurnt(int ticks) {}
+    default void gremlib$onExplosion(Entity cause) {}
     default void gremlib$onShocked() {}
-    default void gremlib$onShulkerRecieved() {}
+    default void gremlib$onShulkerRecieved() {} // What the fuck am I talking about
 
 
 }

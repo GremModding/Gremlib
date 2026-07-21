@@ -6,13 +6,17 @@
   "description": "The main library powering various mods by Siuolplex and GremStudio",
   "authors": [
     {
-      "name": "Siuolplex",
+      "name": "Gremstudio"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Siuolplex - Studio Lead",
       "contact": {
         "bluesky": "https://bsky.app/profile/siuol.bsky.social"
       }
     }
   ],
-  "contributors": [],
   "contact": {},
   "license": "MIT",
   "icon": "logo.png",
@@ -29,8 +33,8 @@
   ],
   "accessWidener": "gremlib.classtweaker",
   "depends": {
-    "fabricloader": ">=0.18.0",
-    "fabric-api": "*",
-    "minecraft": ">=26.1"
+    "fabricloader": ">=0.17.3",
+    "fabric-api": ">=0.154.0",
+    "minecraft": "~${minecraft_version}"
   }
 }

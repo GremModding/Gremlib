@@ -8,7 +8,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import java.util.*;
 
 
-public class FabricCreativeTabs {
+public class    FabricCreativeTabs {
     public static void prepareTabFilling() {
         Map<ResourceKey<CreativeModeTab>, List<CreativeTabAPI.InsertionData>> insertionsByTab = CreativeTabAPI.getInsertionsByTab();
         for (ResourceKey<CreativeModeTab> key : insertionsByTab.keySet()) {

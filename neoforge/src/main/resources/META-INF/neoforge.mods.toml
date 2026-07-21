@@ -8,12 +8,12 @@ modId = "gremlib"
 version = "${version}"
 displayName = "Gremlib"
 displayURL = ""
-authors = "Siuolplex"
+authors = "Gremstudio"
 credits = ''''
-Siuolplex - Mod Author
+Siuolplex - Studio Head
 '''
 description = '''
-The main library powering various mods by Siuolplex.
+The main library powering various mods by Gremstudio and Siuolplex.
 '''
 logoFile = "icon.png"
 
@@ -27,7 +27,7 @@ side = "BOTH"
 [[dependencies.gremlib]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[26.0, 26.2]"
+versionRange = "[26.1, 26.2)"
 ordering = "NONE"
 side = "BOTH"
 

@@ -3,7 +3,9 @@ package io.gremstudio.gremlib.mixin;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import io.gremstudio.gremlib.world.interaction.entity.EntityWorldInteractions;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -38,11 +40,21 @@ public abstract class EntityMixin implements EntityWorldInteractions {
             }
             if (this.isOnFire()) {
                 gremlib$ticksIHaveBeenOnFire++;
-                this.gremlib$onBurnt();
+                this.gremlib$onBurnt(gremlib$ticksIHaveBeenOnFire);
             } else {
                 gremlib$ticksIHaveBeenOnFire = 0;
             }
         }
+    }
+
+    @Inject(method = "thunderHit", at = @At("RETURN"))
+    void gremlib$whenHitByThunder(ServerLevel level, LightningBolt lightningBolt, CallbackInfo ci) {
+        gremlib$onShocked();
+    }
+
+    @Inject(method = "onExplosionHit", at = @At("RETURN"))
+    void gremlib$whenHitByExplosion(Entity explosionCausedBy, CallbackInfo ci) {
+        gremlib$onExplosion(explosionCausedBy);
     }
 
     // Funnily enough, I was looking at the mixin extras wiki to get an idea on how to target this area and they just straight up have what Im looking for as an example, neat!
@@ -58,11 +70,5 @@ public abstract class EntityMixin implements EntityWorldInteractions {
     @Inject(method = "load", at = @At("MIXINEXTRAS:EXPRESSION"))
     public void gremlib$loadInteractionData(ValueInput input, CallbackInfo ci) {
         gremlib$ticksIHaveBeenOnFire = input.getShortOr("gremlib:ticks_been_burning", (short) 0);
-    }
-
-    @Override
-    public void gremlib$onBurnt() {
-        EntityWorldInteractions.super.gremlib$onBurnt();
-
     }
 }

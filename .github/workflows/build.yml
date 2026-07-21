@@ -1,8 +1,8 @@
 name: Build Mod
-on: [ pull_request, push ]
+on: [ push ]
 
 env:
-  RELEASE_MODE: "false"
+  RELEASE_MODE: "False"
 
 jobs:
   build:
