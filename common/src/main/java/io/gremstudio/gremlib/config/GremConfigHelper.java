@@ -104,7 +104,7 @@ public class GremConfigHelper {
         Set<String> seenKeys = new HashSet<>();
         for (Entry<?> entry : entries) {
             if (!seenKeys.add(entry.key())) {
-                throw new IllegalArgumentException("Duplicate config key '" + entry.key() + "' in " + modId);
+                throw new IllegalArgumentException("Duplicate config entryName '" + entry.key() + "' in " + modId);
             }
         }
     }

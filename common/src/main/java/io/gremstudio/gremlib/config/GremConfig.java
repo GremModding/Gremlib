@@ -158,7 +158,7 @@ public class GremConfig {
         }
 
         public Entry {
-            Objects.requireNonNull(key, "key");
+            Objects.requireNonNull(key, "entryName");
             Objects.requireNonNull(defaultValue, "defaultValue");
             Objects.requireNonNull(comment, "comment");
             Objects.requireNonNull(adapter, "adapter");

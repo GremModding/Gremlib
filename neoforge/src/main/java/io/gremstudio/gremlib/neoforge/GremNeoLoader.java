@@ -1,8 +1,6 @@
 package io.gremstudio.gremlib.neoforge;
 
 import io.gremstudio.gremlib.multiloader.Loader;
-import io.gremstudio.gremlib.multiloader.block.LoaderBlockAPI;
-import io.gremstudio.gremlib.neoforge.api.block.NeoBlockAPI;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -40,9 +38,4 @@ public final class GremNeoLoader implements Loader {
     public boolean isDataGenerating() {
             return DatagenModLoader.isRunningDataGen();
         }
-
-    @Override
-    public LoaderBlockAPI blocks() {
-        return NeoBlockAPI.INSTANCE;
-    }
 }

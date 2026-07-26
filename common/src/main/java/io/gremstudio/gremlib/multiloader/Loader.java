@@ -1,14 +1,12 @@
 package io.gremstudio.gremlib.multiloader;
 
-import io.gremstudio.gremlib.multiloader.block.LoaderBlockAPI;
-import net.minecraft.world.item.CreativeModeTab;
+import io.gremstudio.gremlib.multiloader.block.BlockAPI;
 
 import java.nio.file.Path;
 
 /**
- * A set of small util stuff for Loaders.
+ * Loader, as the name suggests, is a
  * <br> Might need to be expanded over time, who knows.
- *
  */
 
 public interface Loader {
@@ -18,8 +16,4 @@ public interface Loader {
     Path getGameDir();
     boolean isModPresent(String mod);
     boolean isDataGenerating();
-
-    LoaderBlockAPI blocks();
-
-
 }
