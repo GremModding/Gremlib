@@ -3,28 +3,30 @@ plugins {
     id("maven-publish")
 }
 
-val java_version: String by project
-val minecraft_version: String by project
-val mod_id: String by project
-val mod_version: String by project
-val mod_name: String by project
-val mod_author: String by project
+val javaVersion: String = providers.gradleProperty("java_version").get()
+val minecraftVersion: String = providers.gradleProperty("minecraft_version").get()
+
+val modName: String = providers.gradleProperty("mod_name").get()
+val modId: String = providers.gradleProperty("mod_id").get()
+val modVersion: String = providers.gradleProperty("mod_version").get()
+val modAuthor: String = providers.gradleProperty("mod_author").get()
+
 var release: Boolean = providers.environmentVariable("RELEASE_MODE").getOrElse("False") == "True"
 
 base {
-    version = "${mod_version}+${project.name}-${minecraft_version}" + if (release) "" else "-SNAPSHOT"
-    archivesName = mod_id
+    version = "${modVersion}+${project.name}-${minecraftVersion}" + if (release) "" else "-SNAPSHOT"
+    archivesName = modId
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+    toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
     withSourcesJar()
     withJavadocJar()
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
     // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
 
     exclusiveContent {
@@ -59,9 +61,9 @@ dependencies {
 // Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
 arrayOf("apiElements", "runtimeElements", "sourcesElements", "javadocElements").forEach { variant ->
     configurations[variant].outgoing {
-        capability("${group}:${mod_id}:${mod_version}")
-        capability("${group}:${mod_id}:${mod_version}+${project.name}")
-        capability("${group}:${mod_id}:${mod_version}+${project.name}-${minecraft_version}")
+        capability("${group}:${modId}:${modVersion}")
+        capability("${group}:${modId}:${modVersion}+${project.name}")
+        capability("${group}:${modId}:${modVersion}+${project.name}-${minecraftVersion}")
     }
 
     publishing.publications.configureEach {
@@ -73,26 +75,26 @@ arrayOf("apiElements", "runtimeElements", "sourcesElements", "javadocElements").
 tasks {
     getByName<Jar>("sourcesJar") {
         from(rootProject.file("LICENSE")) {
-            rename { "${it}_${mod_name}" }
+            rename { "${it}_${modName}" }
         }
     }
 
 
     getByName<Jar>("jar") {
         from(rootProject.file("LICENSE")) {
-            rename { "${it}_${mod_name}" }
+            rename { "${it}_${modName}" }
         }
 
         val archiveVersion = this.archiveVersion
         manifest {
             attributes += mapOf(
-                "Specification-Title" to mod_name,
-                "Specification-Vendor" to mod_author,
+                "Specification-Title" to modName,
+                "Specification-Vendor" to modAuthor,
                 "Specification-Version" to archiveVersion,
-                "Implementation-Title" to mod_name,
+                "Implementation-Title" to modName,
                 "Implementation-Version" to archiveVersion,
-                "Implementation-Vendor" to mod_author,
-                "Built-On-Minecraft" to minecraft_version
+                "Implementation-Vendor" to modAuthor,
+                "Built-On-Minecraft" to minecraftVersion
             )
         }
     }
@@ -108,9 +110,9 @@ tasks {
 
    getByName<ProcessResources>("processResources") {
         var expandProps = mutableMapOf(
-            "version" to mod_version,
+            "version" to modVersion,
             //"group" to project.group, //Else we target the task's group.
-            "minecraft_version" to minecraft_version
+            "minecraft_version" to minecraftVersion
         )
 
         var jsonExpandProps = mutableMapOf<String, Any>()
@@ -139,7 +141,7 @@ publishing {
 
     publications {
         register<MavenPublication>("mavenJava") {
-            artifactId = mod_id
+            artifactId = modId
             from(components.getByName("java"))
         }
     }

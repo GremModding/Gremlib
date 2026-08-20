@@ -1,12 +1,13 @@
-import me.modmuss50.mpp.PublishModTask
+import io.gremstudio.gremdle.metadata.Person
 
 plugins {
     id("java-library")
     // see https://fabricmc.net/develop/ for new versions
-    id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT" apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-    id("net.neoforged.moddev") version "2.0.140" apply false
-    id("me.modmuss50.mod-publish-plugin") version "2.0.1"
+    id("net.neoforged.moddev") version "2.0.144" apply false
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
+    id("io.gremstudio.gremdle") version "1.+"
 }
 
 
@@ -60,4 +61,31 @@ tasks.register("uploadMod") {
     }
 
     finalizedBy(theTasks)
+}
+
+gremdle {
+    modDetails {
+        loaders = listOf("neoforge", "fabric")
+        minecraftVersion = "26.1.2"
+        modID = "gremlib"
+        metadata {
+            modName = "Gremlib"
+            version = "0.1.0"
+            description = "The library used for various mods."
+            license = "MIT"
+            authors.add(Person("Grem Studio"))
+            contributors.add(Person("Siuol").setRole("Project Lead"))
+            contacts = mapOf(
+                "source" to "https://github.com/GremModding/Gremlib",
+                "issues" to "https://github.com/GremModding/Gremlib/issues"
+            ) // Do we open up the discord?
+        }
+
+        modDependencies {
+            create("fabric-api") {
+                version = ">=0.154.0"
+                onLoader("fabric")
+            }
+        }
+    }
 }

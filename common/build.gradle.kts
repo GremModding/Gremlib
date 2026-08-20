@@ -2,6 +2,7 @@ plugins {
     id("java-library")
     id("gremdle-common")
     id("net.neoforged.moddev")
+    id("io.gremstudio.gremdle")
 }
 
 val minecraft_version : String by project
@@ -51,8 +52,22 @@ val commonResources by configurations.creating {
     isCanBeConsumed = true
 }
 
+sourceSets {
+    create("testmod") {
+        compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().runtimeClasspath + sourceSets.main.get().output
+    }
+}
+
 artifacts {
     add(commonJava.name, (sourceSets.main.get().java.sourceDirectories.singleFile))
     add(commonResources.name, (sourceSets.main.get().resources.sourceDirectories.singleFile))
 }
 
+gremdle {
+    loader {
+        name = "common"
+        setMixin("gremlib.mixins.json")
+        setClassTweaker("gremlib.classtweaker")
+    }
+}

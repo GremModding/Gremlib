@@ -1,40 +1,14 @@
 package io.gremstudio.gremdle
 
-import org.gradle.api.provider.Property
+import io.gremstudio.gremdle.ext.LoaderExt
+import io.gremstudio.gremdle.ext.ModDetailsExt
+import org.gradle.api.Action
+import org.gradle.api.model.ObjectFactory
+import javax.inject.Inject
 
-abstract class GremdleExt {
-    abstract val modDetails: Property<ModDetailsExt>
-    abstract val common: Property<CommonExt>
-    abstract val fabric: Property<FabricExt>
-    abstract val neoforge: Property<NeoforgeExt>
-
-
-    abstract class ModDetailsExt {
-        abstract val loaders: Property<Array<String>>
-        abstract val minecraftVersion: Property<String>
-        abstract val modID: Property<String>
-        abstract val metadata: Property<MetadataExt>
-        abstract val upload: Property<UploadExt>
-
-
-        abstract class MetadataExt {
-            abstract val modName: Property<String>
-            abstract val description: Property<String>
-            abstract val license: Property<String>
-            abstract val urlIssues: Property<String>
-
-            val authors: MutableList<Person> = ArrayList()
-            val contributors: MutableList<Person> = ArrayList()
-        }
-
-        abstract class UploadExt {
-            abstract val modrinthToken: Property<String>
-
-            abstract val curseforgeToken: Property<String>
-
-            abstract val githubToken: Property<String>
-        }
-    }
+abstract class GremdleExt @Inject constructor(factory: ObjectFactory) {
+    val modDetails: ModDetailsExt = factory.newInstance(ModDetailsExt::class.java)
+    val loader: LoaderExt = factory.newInstance(LoaderExt::class.java)
 
     /*
         modName = "Gremlib"
@@ -44,25 +18,11 @@ abstract class GremdleExt {
             author = person.name("Siuol")
             contributor.add(person.name("Siuol"))
      */
-
-
-    abstract class CommonExt : LoaderExt() {
-        abstract val neoformVersion: Property<String>
+    fun modDetails(action: Action<ModDetailsExt>) {
+        action.execute(modDetails)
     }
 
-    abstract class FabricExt : LoaderExt() {
-        abstract val loaderVersion: Property<String>
-        abstract val apiVersion: Property<String> // Maybe null if no api installed?
+    fun loader(action: Action<LoaderExt>) {
+        action.execute(loader)
     }
-
-    abstract class NeoforgeExt : LoaderExt() {
-        abstract val loaderVersion: Property<String>
-    }
-
-    abstract class LoaderExt {
-        abstract val classTweaker: Property<String>
-        abstract val mixin: Property<String>
-    }
-
-
 }

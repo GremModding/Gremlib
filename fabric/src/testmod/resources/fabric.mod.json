@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "gremtest",
+  "version": "${version}",
+  "name": "Gremtest",
+  "description": "Gremtest",
+  "authors": [
+    {
+      "name": "Gremstudio"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Siuolplex - Studio Lead",
+      "contact": {
+        "bluesky": "https://bsky.app/profile/siuol.bsky.social"
+      }
+    }
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "gremlib:common": [
+      "io.gremstudio.gremtest.fabric.GremtestFabric"
+    ],
+    "client": []
+  },
+  "mixins": [
+    "gremlib.mixins.json",
+    "gremlib.fabric.mixins.json"
+  ],
+  "accessWidener": "gremlib.classtweaker",
+  "depends": {
+    "fabricloader": ">=0.17.3",
+    "fabric-api": ">=0.154.0",
+    "minecraft": "~${minecraft_version}"
+  }
+}

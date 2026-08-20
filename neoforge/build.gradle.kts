@@ -3,7 +3,7 @@ import me.modmuss50.mpp.PublishOptions
 plugins {
     id("gremdle-loader")
     id("net.neoforged.moddev")
-    id("me.modmuss50.mod-publish-plugin") version "2.0.1"
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
 
 val minecraft_version : String by project
@@ -66,8 +66,19 @@ neoForge {
     }
 }
 
-sourceSets.main.get().resources {
-    srcDir (project(":common").file("src/main/generated"))
+sourceSets {
+    main.get().resources {
+        srcDir (project(":common").file("src/main/generated"))
+    }
+
+    create("testmod") {
+        compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output + project(":common").sourceSets.get("testmod").output
+        runtimeClasspath += sourceSets.main.get().runtimeClasspath + sourceSets.main.get().output + project(":common").sourceSets.get("testmod").output
+
+        resources {
+            srcDir (project(":common").file("src/testmod/generated"))
+        }
+    }
 }
 
 publishMods {

@@ -1,33 +1,33 @@
 import me.modmuss50.mpp.PublishOptions
-import java.util.Locale
 
 plugins {
     id("gremdle-loader")
+    id("io.gremstudio.gremdle")
     id("net.fabricmc.fabric-loom")
-    id("me.modmuss50.mod-publish-plugin") version "2.0.1"
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
 
-val minecraft_version : String by project
+val minecraftVersion = providers.gradleProperty("minecraft_version").get()
 
-val mod_id: String by project
-val mod_name: String by project
+val modId = providers.gradleProperty("mod_id").get()
+val modName = providers.gradleProperty("mod_name").get()
 
-val fabric_loader_version : String by project
-val fabric_api_version : String by project
+val fabricLoaderVersion = providers.gradleProperty("fabric_loader_version").get()
+val fabricApiVersion = providers.gradleProperty("fabric_api_version").get()
 
-val curseforge_id: String by project
-val modrinth_id: String by project
-val repo: String by project
-val branch: String by project
+val curseforgeId = providers.gradleProperty("curseforge_id").get()
+val modrinthId = providers.gradleProperty("modrinth_id").get()
+val repo = providers.gradleProperty("repo").get()
+val branch = providers.gradleProperty("branch").get()
 
 dependencies {
-    minecraft("com.mojang:minecraft:${minecraft_version}")
-    implementation ("net.fabricmc:fabric-loader:${fabric_loader_version}")
-    implementation ("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${minecraft_version}")
+    //minecraft("com.mojang:minecraft:${minecraftVersion}")
+    //implementation ("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
+    implementation ("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}+${minecraftVersion}")
 }
 
 loom {
-    var ct = project(":common").file("src/main/resources/${mod_id}.classtweaker")
+    var ct = project(":common").file("src/main/resources/${modId}.classtweaker")
 
     if (ct.exists()) {
         accessWidenerPath.set(ct)
@@ -36,16 +36,16 @@ loom {
     runs {
         this.getByName("client") {
             client()
-            configName = "Fabric Client"
-            ideConfigGenerated(true)
-            runDir("run/client")
+            displayName = "Fabric Client"
+            generateRunConfig.set(true)
+            runDirectory.set(project.file("run/client"))
         }
 
         this.getByName("server") {
             server()
-            configName = "Fabric Server"
-            ideConfigGenerated(true)
-            runDir("run/server")
+            displayName = "Fabric Server"
+            generateRunConfig.set(true)
+            runDirectory.set(project.file("run/server"))
         }
     }
 }
@@ -54,6 +54,17 @@ fabricApi {
     configureDataGeneration {
         client = true
         outputDirectory = project(":common").file("src/main/generated")
+    }
+}
+
+sourceSets {
+    create("testmod") {
+        compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output + project(":common").sourceSets["testmod"].output
+        runtimeClasspath += sourceSets.main.get().runtimeClasspath + sourceSets.main.get().output + project(":common").sourceSets["testmod"].output
+
+        resources {
+            srcDir (project(":common").file("src/testmod/generated"))
+        }
     }
 }
 
@@ -79,8 +90,8 @@ publishMods {
             providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")
                 ?.toString()
         )
-        projectId.set(curseforge_id)
-        minecraftVersions.add(minecraft_version)
+        projectId.set(curseforgeId)
+        minecraftVersions.add(minecraftVersion)
 
         changelogType.set("markdown")
 
@@ -98,8 +109,8 @@ publishMods {
         accessToken.set(
             providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
         )
-        projectId.set(modrinth_id)
-        minecraftVersions.add(minecraft_version)
+        projectId.set(modrinthId)
+        minecraftVersions.add(minecraftVersion)
 
         projectDescription.set(providers.fileContents(rootProject.layout.projectDirectory.file("readme.md")).asText)
 
@@ -113,4 +124,14 @@ publishMods {
         this.parent(project(":").tasks.named("publishGithubParent"))
     }
 
+}
+
+gremdle {
+    loader.name = "fabric"
+    loader {
+        setMixin("gremlib.fabric.mixins.json")
+        loaderVersion = fabricLoaderVersion
+        //setClassTweaker("gremlib.classtweaker")
+        logger.lifecycle("HEY I WAS CALLED HERE!!! OVER HERE!!!")
+    }
 }

@@ -9,18 +9,18 @@ val mod_id: String by project
 val mod_name: String by project
 val mod_author: String by project
 
-val commonJava by configurations.creating {
+val commonJava = configurations.create("commonJava") {
     isCanBeResolved = true
 }
 
-val commonResources by configurations.creating {
+val commonResources = configurations.create("commonResources") {
     isCanBeResolved = true
 }
 
 dependencies {
     compileOnly(project(":common")) {
         capabilities {
-            requireCapability("$group:$mod_id")
+                requireCapability("$group:$mod_id")
             }
             val loaderAttribute: Attribute<String> = Attribute.of("io.github.mcgradleconventions.loader", String::class.java)
             attributes {

@@ -2,9 +2,14 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
+        mavenLocal()
         maven {
             name = "Fabric"
             url = uri("https://maven.fabricmc.net")
+        }
+        maven {
+            name = "DevOS Snapshots"
+            url = uri("https://mvn.devos.one/snapshots/")
         }
 
 
