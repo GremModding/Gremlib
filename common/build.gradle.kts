@@ -1,3 +1,5 @@
+import io.gremstudio.gremdle.util.Loaders
+
 plugins {
     id("java-library")
     id("gremdle-common")
@@ -66,7 +68,7 @@ artifacts {
 
 gremdle {
     loader {
-        name = "common"
+        loader = Loaders.COMMON
         setMixin("gremlib.mixins.json")
         setClassTweaker("gremlib.classtweaker")
     }

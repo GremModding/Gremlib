@@ -68,6 +68,7 @@ gremdle {
         loaders = listOf("neoforge", "fabric")
         minecraftVersion = "26.1.2"
         modID = "gremlib"
+        modVersion = mod_version
         metadata {
             modName = "Gremlib"
             version = "0.1.0"
@@ -87,5 +88,8 @@ gremdle {
                 onLoader("fabric")
             }
         }
+    }
+    gremSettings {
+        javaVersion = providers.gradleProperty("java_version").get()
     }
 }

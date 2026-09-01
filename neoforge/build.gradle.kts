@@ -41,22 +41,22 @@ neoForge {
     runs {
         configureEach {
             systemProperty("neoforge.enabledGameTestNamespaces", mod_id)
-            ideName = "NeoForge ${this.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+            ideName = "NeoForge ${this.name.capitalize()} (${path})" // Unify the run config names with fabric
         }
         register("client") {
             client()
-            gameDirectory = project.file("run/client")
+            gameDirectory = file("run/client")
         }
         register("data") {
             clientData()
-            gameDirectory = project.file("run/client")
+            gameDirectory = file("run/client")
             // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             programArguments.addAll( "--mod", mod_id, "--all", "--output", file("src/generated/resources/").absolutePath, "--existing", file("src/main/resources/").absolutePath)
         }
         register("server") {
             server()
-            gameDirectory = project.file("run/server")
+            gameDirectory = file("run/server")
         }
     }
     mods {

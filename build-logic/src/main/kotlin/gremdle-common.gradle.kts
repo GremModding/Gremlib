@@ -13,10 +13,8 @@ val modAuthor: String = providers.gradleProperty("mod_author").get()
 
 var release: Boolean = providers.environmentVariable("RELEASE_MODE").getOrElse("False") == "True"
 
-base {
-    version = "${modVersion}+${project.name}-${minecraftVersion}" + if (release) "" else "-SNAPSHOT"
-    archivesName = modId
-}
+version = "${modVersion}+${project.name}-${minecraftVersion}" + if (release) "" else "-SNAPSHOT"
+base.archivesName = modId
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
@@ -24,6 +22,7 @@ java {
     withJavadocJar()
 }
 
+// GremdleBP gets all repos.
 repositories {
     mavenLocal()
     mavenCentral()

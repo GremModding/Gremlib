@@ -12,6 +12,7 @@ abstract class ModDetailsExt @Inject constructor(factory: ObjectFactory) {
     abstract val loaders: ListProperty<String>
     abstract val minecraftVersion: Property<String>
     abstract val modID: Property<String>
+    abstract val modVersion: Property<String>
     val dependency = factory.domainObjectContainer(Dependency::class.java) { name ->
         factory.newInstance(
             Dependency::class.java,

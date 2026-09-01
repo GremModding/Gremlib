@@ -1,4 +1,5 @@
 import me.modmuss50.mpp.PublishOptions
+import io.gremstudio.gremdle.util.Loaders
 
 plugins {
     id("gremdle-loader")
@@ -127,8 +128,9 @@ publishMods {
 }
 
 gremdle {
-    loader.name = "fabric"
+    //loader.name = "fabric"
     loader {
+        loader = Loaders.FABRIC
         setMixin("gremlib.fabric.mixins.json")
         loaderVersion = fabricLoaderVersion
         //setClassTweaker("gremlib.classtweaker")
