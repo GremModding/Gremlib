@@ -1,16 +1,16 @@
-package io.gremstudio.gremdle
+package io.gremstudio.gauntlet
 
-import io.gremstudio.gremdle.ext.GremSettingsExt
-import io.gremstudio.gremdle.ext.LoaderExt
-import io.gremstudio.gremdle.ext.ModDetailsExt
+import io.gremstudio.gauntlet.ext.GauntletSettingsExt
+import io.gremstudio.gauntlet.ext.LoaderExt
+import io.gremstudio.gauntlet.ext.ModDetailsExt
 import org.gradle.api.Action
 import org.gradle.api.model.ObjectFactory
 import javax.inject.Inject
 
-abstract class GremdleExt @Inject constructor(factory: ObjectFactory) {
+abstract class GauntletExt @Inject constructor(factory: ObjectFactory) {
     val modDetails: ModDetailsExt = factory.newInstance(ModDetailsExt::class.java)
     val loader: LoaderExt = factory.newInstance(LoaderExt::class.java)
-    val gremSettings: GremSettingsExt = factory.newInstance(GremSettingsExt::class.java)
+    val gremSettings: GauntletSettingsExt = factory.newInstance(GauntletSettingsExt::class.java)
 
 
     /*
@@ -29,7 +29,7 @@ abstract class GremdleExt @Inject constructor(factory: ObjectFactory) {
         action.execute(loader)
     }
 
-    fun gremSettings(action: Action<GremSettingsExt>) {
+    fun gremSettings(action: Action<GauntletSettingsExt>) {
         action.execute(gremSettings)
     }
 }

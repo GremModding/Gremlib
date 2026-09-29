@@ -1,6 +1,6 @@
-package io.gremstudio.gremdle.ext
+package io.gremstudio.gauntlet.ext
 
-import io.gremstudio.gremdle.metadata.Person
+import io.gremstudio.gauntlet.metadata.Person
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 

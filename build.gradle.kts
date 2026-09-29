@@ -1,4 +1,4 @@
-import io.gremstudio.gremdle.metadata.Person
+import io.gremstudio.gauntlet.metadata.Person
 
 plugins {
     id("java-library")
@@ -7,16 +7,16 @@ plugins {
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id("net.neoforged.moddev") version "2.0.144" apply false
     id("me.modmuss50.mod-publish-plugin") version "2.2.0"
-    id("io.gremstudio.gremdle") version "1.+"
+    id("io.gremstudio.gauntlet") version "1.+"
 }
 
 
-val repo: String by project
-val branch: String by project
-val minecraft_version: String by project
-val mod_version: String by project
+val repo = providers.gradleProperty("repo").get()
+val branch = providers.gradleProperty("branch").get()
+val minecraftVersionProp = providers.gradleProperty("minecraft_version").get()
+val modVersionProp = providers.gradleProperty("mod_version").get()
 
-version = "${mod_version}+${project.name}-${minecraft_version}"
+version = "${modVersionProp}+${project.name}-${minecraftVersionProp}"
 
 publishMods {
     github("githubParent") {
@@ -63,17 +63,17 @@ tasks.register("uploadMod") {
     finalizedBy(theTasks)
 }
 
-gremdle {
+gauntlet {
     modDetails {
         loaders = listOf("neoforge", "fabric")
-        minecraftVersion = "26.1.2"
+        minecraftVersion = minecraftVersionProp
         modID = "gremlib"
-        modVersion = mod_version
+        modVersion = modVersionProp
         metadata {
             modName = "Gremlib"
-            version = "0.1.0"
             description = "The library used for various mods."
             license = "MIT"
+            icon = "icon.png"
             authors.add(Person("Grem Studio"))
             contributors.add(Person("Siuol").setRole("Project Lead"))
             contacts = mapOf(
@@ -90,6 +90,11 @@ gremdle {
         }
     }
     gremSettings {
-        javaVersion = providers.gradleProperty("java_version").get()
+        javaVersion = providers.gradleProperty("java_version")
+
+        neoformVersion = providers.gradleProperty("neoform_version")
+        mixinVersion = providers.gradleProperty("mixin_version")
+        fabricMixinVersion = providers.gradleProperty("fabric_mixin_version")
+        mixinExtrasVersion = providers.gradleProperty("mixin_extras_version")
     }
 }

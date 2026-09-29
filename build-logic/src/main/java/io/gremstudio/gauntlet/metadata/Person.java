@@ -1,4 +1,4 @@
-package io.gremstudio.gremdle.metadata;
+package io.gremstudio.gauntlet.metadata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +22,9 @@ public class Person {
         return role;
     }
 
-    public void setRole(String role) {
+    public Person setRole(String role) {
         this.role = role;
+        return this;
     }
 
 
@@ -31,8 +32,9 @@ public class Person {
         return contact;
     }
 
-    public void addContract(String contactName, String contactLocation) {
+    public Person addContract(String contactName, String contactLocation) {
         contact.put(contactName, contactLocation);
+        return this;
     }
 
     public String formatForFabric() {

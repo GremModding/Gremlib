@@ -1,85 +1,24 @@
+import io.gremstudio.gauntlet.util.Loaders
 import me.modmuss50.mpp.PublishOptions
 
 plugins {
-    id("gremdle-loader")
+    //id("gauntlet-loader")
+    id("io.gremstudio.gauntlet")
     id("net.neoforged.moddev")
     id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
 
-val minecraft_version : String by project
+val minecraftVersion = providers.gradleProperty("minecraft_version").get()
 
-val mod_id: String by project
-val mod_name: String by project
+val modId = providers.gradleProperty("mod_id").get()
+val modName = providers.gradleProperty("mod_name").get()
 
-val neoforge_version : String by project
+val neoforgeVersion = providers.gradleProperty("neoforge_version").get()
 
-val curseforge_id: String by project
-val modrinth_id: String by project
-val repo: String by project
-val branch: String by project
-
-neoForge {
-    version = neoforge_version
-    // Automatically enable neoforge AccessTransformers if the file exists
-    var at = project(":common").file("src/main/resources/META-INF/accesstransformer.cfg")
-    if (at.exists()) {
-        accessTransformers.from(at.absolutePath)
-        accessTransformers {
-            from(at.absolutePath)
-            publish(at)
-        }
-    }
-
-    val intInject = project(":common").file("interfaces.json")
-    if (intInject.exists()) {
-        interfaceInjectionData {
-            from(intInject.absolutePath)
-            publish(intInject)
-        }
-    }
-
-    runs {
-        configureEach {
-            systemProperty("neoforge.enabledGameTestNamespaces", mod_id)
-            ideName = "NeoForge ${this.name.capitalize()} (${path})" // Unify the run config names with fabric
-        }
-        register("client") {
-            client()
-            gameDirectory = file("run/client")
-        }
-        register("data") {
-            clientData()
-            gameDirectory = file("run/client")
-            // DataGen can be run by - "./gradlew :neoforge:runData" in Terminal.
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll( "--mod", mod_id, "--all", "--output", file("src/generated/resources/").absolutePath, "--existing", file("src/main/resources/").absolutePath)
-        }
-        register("server") {
-            server()
-            gameDirectory = file("run/server")
-        }
-    }
-    mods {
-        this.register(mod_id) {
-            sourceSet (sourceSets.main.get())
-        }
-    }
-}
-
-sourceSets {
-    main.get().resources {
-        srcDir (project(":common").file("src/main/generated"))
-    }
-
-    create("testmod") {
-        compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output + project(":common").sourceSets.get("testmod").output
-        runtimeClasspath += sourceSets.main.get().runtimeClasspath + sourceSets.main.get().output + project(":common").sourceSets.get("testmod").output
-
-        resources {
-            srcDir (project(":common").file("src/testmod/generated"))
-        }
-    }
-}
+val curseforgeId = providers.gradleProperty("curseforge_id").get()
+val modrinthId = providers.gradleProperty("modrinth_id").get()
+val repo = providers.gradleProperty("repo").get()
+val branch = providers.gradleProperty("branch").get()
 
 publishMods {
     plugins.apply("java-library")
@@ -103,8 +42,8 @@ publishMods {
             providers.environmentVariable("CURSEFORGE_TOKEN").orNull ?: project.findProperty("curseforgeToken")
                 ?.toString()
         )
-        projectId.set(curseforge_id)
-        minecraftVersions.add(minecraft_version)
+        projectId.set(curseforgeId)
+        minecraftVersions.add(minecraftVersion)
 
         changelogType.set("markdown")
 
@@ -121,8 +60,8 @@ publishMods {
         accessToken.set(
             providers.environmentVariable("MODRINTH_PAT").orNull ?: project.findProperty("modrinthPAT")?.toString()
         )
-        projectId.set(modrinth_id)
-        minecraftVersions.add(minecraft_version)
+        projectId.set(modrinthId)
+        minecraftVersions.add(minecraftVersion)
     }
 
     github("ghNeo") {
@@ -130,5 +69,13 @@ publishMods {
 
         file = (project.tasks.named<Jar>("jar").get().archiveFile)
         this.parent(project(":").tasks.named("publishGithubParent"))
+    }
+}
+
+gauntlet {
+    loader {
+        loader = Loaders.NEOFORGE
+        setMixin("gremlib.neoforge.mixins.json")
+        loaderVersion = neoforgeVersion
     }
 }

@@ -1,4 +1,4 @@
-package io.gremstudio.gremdle.util
+package io.gremstudio.gauntlet.util
 
 enum class Loaders constructor(name: String) {
     COMMON("common"), FABRIC("fabric"), NEOFORGE("neoforge");

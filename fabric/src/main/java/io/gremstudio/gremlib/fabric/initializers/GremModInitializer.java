@@ -7,7 +7,7 @@ package io.gremstudio.gremlib.fabric.initializers;
  *
  */
 public interface GremModInitializer {
-    public String ENTRYPOINT_ID = "gremlib:common";
+    String ENTRYPOINT_ID = "gremlib:common";
 
     void onGremModInitalization();
 }

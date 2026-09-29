@@ -10,6 +10,7 @@ import io.gremstudio.gremtest.submods.grem1.SubGremtest1;
 import io.gremstudio.gremtest.submods.grem2.SubGremtest2;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

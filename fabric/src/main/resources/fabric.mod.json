@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "gremlib",
+  "id": "${mod_id}",
   "version": "${version}",
-  "name": "Gremlib",
-  "description": "The main library powering various mods by Siuolplex and GremStudio",
+  "name": "${mod_name}",
+  "description": "${description}",
   "authors": [
     {
       "name": "Gremstudio"
@@ -18,8 +18,8 @@
     }
   ],
   "contact": {},
-  "license": "MIT",
-  "icon": "logo.png",
+  "license": "${license}",
+  "icon": "${icon}",
   "environment": "*",
   "entrypoints": {
     "main": [

@@ -2,7 +2,9 @@ package io.gremstudio.gremlib.multiloader.block;
 
 import io.gremstudio.gremlib.multiloader.MixinImplementationError;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.msrandom.multiplatform.annotations.Expect;
 
 public class BlockAPI {
     /**
@@ -11,9 +13,8 @@ public class BlockAPI {
      * @param block The block being added.
      * @param be The block entity to add it to.
      */
-    public void addBlockToBE(BlockEntityType<?> be, Block block) {
-        throw new MixinImplementationError("IMPLEMENTED IN MIXIN");
-    }
+    @Expect
+    public void addBlockToBE(BlockEntityType<?> be, Block block);
 
     /**
      * Multiple block variant of addBlockToBE().
@@ -29,8 +30,16 @@ public class BlockAPI {
      */
 
     // Yes I know there's a datamap for this on Neoforge, no I am not going to use it do you know how annoying it is to maintain a datamap alongside just a regular in-code solution?
-    public void addToStrippables(Block input, Block output) {
-        throw new MixinImplementationError("IMPLEMENTED IN MIXIN");
+    @Expect
+    public void addToStrippables(Block input, Block output);
+
+    /*
+    public void addToOxidization(Block input, Block output) {
+        //throw new MixinImplementationError("IMPLEMENTED IN MIXIN");
     }
 
+    public void addToWaxables(Block input, Block output) {
+        //throw new MixinImplementationError("IMPLEMENTED IN MIXIN");
+    }
+    */
 }

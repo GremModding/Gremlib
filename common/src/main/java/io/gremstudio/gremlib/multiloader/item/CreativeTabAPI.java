@@ -3,6 +3,7 @@ package io.gremstudio.gremlib.multiloader.item;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.msrandom.multiplatform.annotations.Expect;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,9 +53,8 @@ public class CreativeTabAPI {
         insert(new InsertionData(tab, newEntry, InsertionPoint.END));
     }
 
-    public static CreativeModeTab createTab(Function<CreativeModeTab.Builder, CreativeModeTab> tabFunc) {
-        throw new IllegalAccessError("IMPLEMENTED IN MIXIN");
-    }
+    @Expect
+    public static CreativeModeTab createTab(Function<CreativeModeTab.Builder, CreativeModeTab> tabFunc);
 
     public static Map<ResourceKey<CreativeModeTab>, List<InsertionData>> getInsertionsByTab() {
         return Map.copyOf(insertionsByTab);

@@ -1,9 +1,9 @@
 import me.modmuss50.mpp.PublishOptions
-import io.gremstudio.gremdle.util.Loaders
+import io.gremstudio.gauntlet.util.Loaders
 
 plugins {
-    id("gremdle-loader")
-    id("io.gremstudio.gremdle")
+    //id("gauntlet-loader")
+    id("io.gremstudio.gauntlet")
     id("net.fabricmc.fabric-loom")
     id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 }
@@ -22,12 +22,10 @@ val repo = providers.gradleProperty("repo").get()
 val branch = providers.gradleProperty("branch").get()
 
 dependencies {
-    //minecraft("com.mojang:minecraft:${minecraftVersion}")
-    //implementation ("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
     implementation ("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}+${minecraftVersion}")
 }
 
-loom {
+/*loom {
     var ct = project(":common").file("src/main/resources/${modId}.classtweaker")
 
     if (ct.exists()) {
@@ -56,7 +54,7 @@ fabricApi {
         client = true
         outputDirectory = project(":common").file("src/main/generated")
     }
-}
+}*/
 
 sourceSets {
     create("testmod") {
@@ -127,13 +125,12 @@ publishMods {
 
 }
 
-gremdle {
+gauntlet {
     //loader.name = "fabric"
     loader {
         loader = Loaders.FABRIC
         setMixin("gremlib.fabric.mixins.json")
         loaderVersion = fabricLoaderVersion
         //setClassTweaker("gremlib.classtweaker")
-        logger.lifecycle("HEY I WAS CALLED HERE!!! OVER HERE!!!")
     }
 }

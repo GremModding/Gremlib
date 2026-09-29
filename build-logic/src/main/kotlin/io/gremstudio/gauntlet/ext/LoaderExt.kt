@@ -1,6 +1,6 @@
-package io.gremstudio.gremdle.ext
+package io.gremstudio.gauntlet.ext
 
-import io.gremstudio.gremdle.util.Loaders
+import io.gremstudio.gauntlet.util.Loaders
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property

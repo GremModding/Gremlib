@@ -1,13 +1,13 @@
-package io.gremstudio.gremdle
+package io.gremstudio.gauntlet
 
-import io.gremstudio.gremdle.ext.LoaderExt
-import io.gremstudio.gremdle.ext.ModDetailsExt
+import io.gremstudio.gauntlet.ext.LoaderExt
+import io.gremstudio.gauntlet.ext.ModDetailsExt
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-abstract class GremdleTestTask : DefaultTask()  {
+abstract class GauntletTestTask : DefaultTask()  {
     @get:Input
     abstract val testModDetails: Property<ModDetailsExt>
 

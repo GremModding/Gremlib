@@ -15,6 +15,10 @@ repositories {
         name = "Fabric"
         url = uri("https://maven.fabricmc.net")
     }
+    maven {
+        name = "MSRandom"
+        url = uri("https://maven.msrandom.net/repository/root/")
+    }
 }
 
 dependencies {
@@ -25,9 +29,9 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("gremdle") {
-            id = "io.gremstudio.gremdle"
-            implementationClass = "io.gremstudio.gremdle.GremdlePlugin"
+        create("gauntlet") {
+            id = "io.gremstudio.gauntlet"
+            implementationClass = "io.gremstudio.gauntlet.GauntletPlugin"
 
         }
     }

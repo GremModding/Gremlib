@@ -1,6 +1,6 @@
-package io.gremstudio.gremdle.ext
+package io.gremstudio.gauntlet.ext
 
-import io.gremstudio.gremdle.util.Dependency
+import io.gremstudio.gauntlet.util.Dependency
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.model.ObjectFactory

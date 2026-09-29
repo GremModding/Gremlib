@@ -1,4 +1,4 @@
-package io.gremstudio.gremdle.ext
+package io.gremstudio.gauntlet.ext
 
 import org.gradle.api.provider.Property
 

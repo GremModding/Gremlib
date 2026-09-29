@@ -1,4 +1,4 @@
-package io.gremstudio.gremdle.util
+package io.gremstudio.gauntlet.util
 
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
