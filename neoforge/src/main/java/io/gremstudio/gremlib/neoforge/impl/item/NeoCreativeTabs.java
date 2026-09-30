@@ -1,4 +1,4 @@
-package io.gremstudio.gremlib.neoforge.impl;
+package io.gremstudio.gremlib.neoforge.impl.item;
 
 import io.gremstudio.gremlib.multiloader.item.CreativeTabAPI;
 import net.minecraft.resources.ResourceKey;

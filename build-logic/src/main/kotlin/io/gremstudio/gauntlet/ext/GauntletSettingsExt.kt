@@ -15,4 +15,14 @@ abstract class GauntletSettingsExt @Inject constructor(factory: ObjectFactory) {
     abstract val mixinVersion: Property<String>
     abstract val fabricMixinVersion: Property<String>
     abstract val mixinExtrasVersion: Property<String>
+
+    init {
+        javaVersion.convention("25")
+        exportJavadocJar.convention("false");
+        quietJavadocExport.convention("true");
+
+        mixinVersion.convention("0.8.7")
+        fabricMixinVersion.convention("0.17.2")
+        mixinExtrasVersion.convention("0.5.4")
+    }
 }

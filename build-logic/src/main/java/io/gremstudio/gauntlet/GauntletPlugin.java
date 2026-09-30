@@ -58,8 +58,6 @@ public class GauntletPlugin implements Plugin<Project> {
         GauntletExt gremExt = project.getExtensions().create("gauntlet", GauntletExt.class, objs);
         GauntletExt gremRoot = project.getRootProject().getExtensions().getByType(GauntletExt.class);
         project.getPluginManager().apply(JavaLibraryPlugin.class); // Mods require java, obviously.
-        gremRoot.getGremSettings().getExportJavadocJar().convention("false");
-        gremRoot.getGremSettings().getQuietJavadocExport().convention("true");
 
         ModDetailsExt modDetails = gremRoot.getModDetails(); // Mod details are a root only thing.
         GauntletSettingsExt gremSettings = gremRoot.getGremSettings(); // So are gremsettings
@@ -96,14 +94,12 @@ public class GauntletPlugin implements Plugin<Project> {
     }
 
     private void registerTasks(Project project) {
-        /*
         project.getTasks().register("gauntletTest", GauntletTestTask.class, (action) -> {
             action.setGroup("gauntlet");
             action.setDescription("Test lmfao");
-            action.getTestModDetails().set(modDetails);
             //this.testLoaderExt.set(loader)
         });
-         */
+
     }
 
     // Implements stuff thats shared amongst all loaders. Essentially, multiloader-common.
@@ -413,19 +409,19 @@ public class GauntletPlugin implements Plugin<Project> {
             runs.register("client", clientRun -> {
                 clientRun.client();
                 clientRun.getGameDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/client"));
-                clientRun.getIdeName().set("Neoforge Client");
+                clientRun.getIdeName().set("Neoforge Client (:neoforge)");
             });
 
             runs.register("server", serverRun -> {
                 serverRun.server();
                 serverRun.getGameDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/server"));
-                serverRun.getIdeName().set("Neoforge Server");
+                serverRun.getIdeName().set("Neoforge Server (:neoforge)");
             });
 
             runs.register("data", datagenRun -> {
                 datagenRun.clientData();
                 datagenRun.getGameDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/datagen"));
-                datagenRun.getIdeName().set("Neoforge Datagen");
+                datagenRun.getIdeName().set("Neoforge Datagen (:neoforge)");
                 datagenRun.getProgramArguments().addAll("--mod", modDetails.getModID().get(), "--all", "--output", project.getRootProject().file("src/generated/resources/").getAbsolutePath(), "--existing", project.getRootProject().file("src/main/resources/").getAbsolutePath());
             });
 

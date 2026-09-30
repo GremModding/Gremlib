@@ -14,12 +14,12 @@ public class BlockAPI {
      * @param be The block entity to add it to.
      */
     @Expect
-    public void addBlockToBE(BlockEntityType<?> be, Block block);
+    public static void addBlockToBE(BlockEntityType<?> be, Block block);
 
     /**
      * Multiple block variant of addBlockToBE().
      */
-    public void addBlocksToBE(BlockEntityType<?> be, Block... blocks) {
+    public static void addBlocksToBE(BlockEntityType<?> be, Block... blocks) {
         for (Block block : blocks) {
             addBlockToBE(be, block);
         }
@@ -31,7 +31,7 @@ public class BlockAPI {
 
     // Yes I know there's a datamap for this on Neoforge, no I am not going to use it do you know how annoying it is to maintain a datamap alongside just a regular in-code solution?
     @Expect
-    public void addToStrippables(Block input, Block output);
+    public static void addToStrippables(Block input, Block output);
 
     /*
     public void addToOxidization(Block input, Block output) {

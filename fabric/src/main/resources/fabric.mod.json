@@ -25,7 +25,9 @@
     "main": [
       "io.gremstudio.gremlib.fabric.GremlibFabric"
     ],
-    "client": []
+    "client": [
+      "io.gremstudio.gremlib.fabric.client.GremlibClientFabric"
+    ]
   },
   "mixins": [
     "gremlib.mixins.json",

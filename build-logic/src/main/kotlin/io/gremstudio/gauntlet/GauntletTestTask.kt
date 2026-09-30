@@ -4,28 +4,18 @@ import io.gremstudio.gauntlet.ext.LoaderExt
 import io.gremstudio.gauntlet.ext.ModDetailsExt
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
+@CacheableTask
 abstract class GauntletTestTask : DefaultTask()  {
-    @get:Input
-    abstract val testModDetails: Property<ModDetailsExt>
 
-    @get:Input
-    abstract val testLoaderExt: Property<LoaderExt>
 
     @TaskAction
     fun run() {
         logger.lifecycle(
-            "TEST" +
-            "\n\tModID: " + testModDetails.get().modID.get() +
-            "\n\tMod Name: " + testModDetails.get().metadata.modName.get()
+            "TEST"
         )
-
-        if (testLoaderExt.isPresent) {
-            logger.lifecycle(
-                "\n\tLoader Detected: " + testLoaderExt.get()
-            )
-        }
     }
 }

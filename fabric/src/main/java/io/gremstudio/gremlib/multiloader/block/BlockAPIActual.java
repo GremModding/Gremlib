@@ -8,12 +8,12 @@ import net.msrandom.multiplatform.annotations.Actual;
 
 public class BlockAPIActual {
     @Actual
-    public void addBlockToBE(BlockEntityType<?> be, Block block) {
+    public static void addBlockToBE(BlockEntityType<?> be, Block block) {
         be.addValidBlock(block);
     }
 
     @Actual
-    public void addToStrippables(Block input, Block output) {
+    public static void addToStrippables(Block input, Block output) {
         StrippableBlockRegistry.register(input, output);
     }
 }

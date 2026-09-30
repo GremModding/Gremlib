@@ -1,10 +1,14 @@
 package io.gremstudio.gremlib.fabric.initializers;
 
 /**
- * The GremMod initializer...
- * <p>
- * I need it so I can be sure that the gremmods will set everything up in a way that can be easily captured for registration and the alike.
+ * In order to have confidence that various Gremlib events fire at the correct time, there's a special initializer for Fabric!
+ * <br>
+ * It fires during {@link net.fabricmc.api.ModInitializer}, specifically when Gremlib gets initalized.
+ * <br> It is not recommended to try and initialize your stuff outside the GremModInitializer.
  *
+ * <br>
+ * <br>
+ * See also: Neoforge's GremModInitalizationEvent.
  */
 public interface GremModInitializer {
     String ENTRYPOINT_ID = "gremlib:common";

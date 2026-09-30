@@ -11,6 +11,7 @@ import java.util.*;
 public class FabricCreativeTabs {
     public static void prepareTabFilling() {
         Map<ResourceKey<CreativeModeTab>, List<CreativeTabAPI.InsertionData>> insertionsByTab = CreativeTabAPI.getInsertionsByTab();
+        // Might need to insert the dependent insertions after the independent ones.
         for (ResourceKey<CreativeModeTab> key : insertionsByTab.keySet()) {
             CreativeModeTabEvents.modifyOutputEvent(key).register(listener -> {
                 for (CreativeTabAPI.InsertionData insertion : insertionsByTab.get(key)) {

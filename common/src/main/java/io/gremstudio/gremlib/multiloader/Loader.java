@@ -1,7 +1,5 @@
 package io.gremstudio.gremlib.multiloader;
 
-import io.gremstudio.gremlib.multiloader.block.BlockAPI;
-
 import java.nio.file.Path;
 
 /**

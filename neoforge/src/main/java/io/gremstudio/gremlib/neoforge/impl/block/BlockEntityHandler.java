@@ -1,4 +1,4 @@
-package io.gremstudio.gremlib.neoforge.impl;
+package io.gremstudio.gremlib.neoforge.impl.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
