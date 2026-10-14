@@ -1,6 +1,6 @@
 package io.gremstudio.gremlib.neoforge;
 
-import io.gremstudio.gremlib.multiloader.Loader;
+import io.gremstudio.gremlib.api.multiloader.Loader;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;

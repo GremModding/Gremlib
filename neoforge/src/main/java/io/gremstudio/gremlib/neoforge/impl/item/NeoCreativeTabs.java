@@ -1,6 +1,6 @@
 package io.gremstudio.gremlib.neoforge.impl.item;
 
-import io.gremstudio.gremlib.multiloader.item.CreativeTabAPI;
+import io.gremstudio.gremlib.api.multiloader.item.CreativeTabAPI;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.SubscribeEvent;

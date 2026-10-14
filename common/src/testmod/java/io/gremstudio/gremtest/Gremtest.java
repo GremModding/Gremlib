@@ -1,23 +1,23 @@
 package io.gremstudio.gremtest;
 
-import io.gremstudio.gremlib.mod.GremMod;
-import io.gremstudio.gremlib.mod.HasConfig;
-import io.gremstudio.gremlib.mod.HasRegistration;
-import io.gremstudio.gremlib.mod.submod.SubGremMod;
+import io.gremstudio.gremlib.api.mod.GremMod;
+import io.gremstudio.gremlib.api.mod.capabilities.HasConfig;
+import io.gremstudio.gremlib.api.mod.capabilities.HasRegistration;
+import io.gremstudio.gremlib.api.mod.capabilities.HasSubmods;
+import io.gremstudio.gremlib.api.mod.submod.SubGremMod;
 import io.gremstudio.gremtest.registry.GremtestItems;
 import io.gremstudio.gremtest.registry.GremtestTabs;
 import io.gremstudio.gremtest.submods.grem1.SubGremtest1;
 import io.gremstudio.gremtest.submods.grem2.SubGremtest2;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gremtest extends GremMod implements HasRegistration, HasConfig {
+public class Gremtest extends GremMod implements HasRegistration, HasConfig, HasSubmods {
     private final Logger LOGGER = LoggerFactory.getLogger("Gremlib");
     public static Gremtest INSTANCE = null;
     private final List<SubGremMod> subGremMods = new ArrayList<>();

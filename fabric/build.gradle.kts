@@ -22,7 +22,7 @@ val repo = providers.gradleProperty("repo").get()
 val branch = providers.gradleProperty("branch").get()
 
 dependencies {
-    implementation ("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}+${minecraftVersion}")
+    implementation("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}+${minecraftVersion}")
 }
 
 /*loom {

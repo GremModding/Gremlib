@@ -1,0 +1,17 @@
+package io.gremstudio.gremlib.api.multiloader;
+
+import java.nio.file.Path;
+
+/**
+ * Loader, as the name suggests, is a
+ * <br> Might need to be expanded over time, who knows.
+ */
+
+public interface Loader {
+    boolean isDevMode();
+    boolean isClient();
+    String getLoader();
+    Path getGameDir();
+    boolean isModPresent(String mod);
+    boolean isDataGenerating();
+}

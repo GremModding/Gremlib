@@ -33,7 +33,7 @@
     "gremlib.mixins.json",
     "gremlib.fabric.mixins.json"
   ],
-  "accessWidener": "gremlib.classtweaker",
+  "accessWzidener": "gremlib.classtweaker",
   "depends": {
     "fabricloader": ">=0.17.3",
     "fabric-api": ">=0.154.0",

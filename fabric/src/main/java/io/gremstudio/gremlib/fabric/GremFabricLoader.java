@@ -1,6 +1,6 @@
 package io.gremstudio.gremlib.fabric;
 
-import io.gremstudio.gremlib.multiloader.Loader;
+import io.gremstudio.gremlib.api.multiloader.Loader;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 

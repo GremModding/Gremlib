@@ -1,11 +1,11 @@
 {
   "net/minecraft/client/renderer/entity/EntityRenderDispatcher": [
-    "io/gremstudio/gremlib/client/mixtension/AtlasManagerGetter"
+    "io/gremstudio/gremlib/api/client/mixtension/AtlasManagerGetter"
   ],
   "net/minecraft/world/entity/Entity": [
-    "io/gremstudio/gremlib/world/interaction/entity/EntityWorldInteractions"
+    "io/gremstudio/gremlib/api/world/interaction/event/entity/EntityWorldInteractions"
   ],
   "net/minecraft/world/item/Item": [
-    "io/gremstudio/gremlib/world/interaction/item/ItemWorldInteractions"
+    "io/gremstudio/gremlib/api/world/interaction/event/item/ItemWorldInteractions"
   ]
 }

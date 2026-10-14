@@ -1,6 +1,6 @@
 package io.gremstudio.gremlib.fabric.impl.item;
 
-import io.gremstudio.gremlib.multiloader.item.CreativeTabAPI;
+import io.gremstudio.gremlib.api.multiloader.item.CreativeTabAPI;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;

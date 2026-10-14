@@ -1,9 +1,9 @@
 package io.gremstudio.gremtest.submods.grem1;
 
-import io.gremstudio.gremlib.mod.GremMod;
-import io.gremstudio.gremlib.mod.HasConfig;
-import io.gremstudio.gremlib.mod.HasRegistration;
-import io.gremstudio.gremlib.mod.submod.SubGremMod;
+import io.gremstudio.gremlib.api.mod.GremMod;
+import io.gremstudio.gremlib.api.mod.capabilities.HasConfig;
+import io.gremstudio.gremlib.api.mod.capabilities.HasRegistration;
+import io.gremstudio.gremlib.api.mod.submod.SubGremMod;
 import io.gremstudio.gremtest.submods.grem1.registry.SubGrem1Items;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -22,7 +22,7 @@ public class SubGremtest1 extends SubGremMod implements HasRegistration, HasConf
     }
 
     @Override
-    public String getSubmodID() {
+    public String getModID() {
         return "subgremtest_1";
     }
 

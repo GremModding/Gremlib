@@ -1,13 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.gremstudio.gremlib.mixin",
+  "package": "io.gremstudio.gremlib.impl.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "BlockSetTypeInvoker",
     "EntityMixin",
     "FluidMixin",
     "ItemEntityMixin",
+    "ItemMixin",
     "WoodTypeMixin"
   ],
   "injectors": {

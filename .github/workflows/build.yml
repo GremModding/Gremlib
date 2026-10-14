@@ -29,6 +29,12 @@ jobs:
           DEVOS_USERNAME: ${{ secrets.DEVOS_USER }}
           DEVOS_PASSWORD: ${{ secrets.DEVOS_PASSWORD }}
 
+      - name: Publish Gauntlet
+        run: : ./gradlew :build-logic:publish
+        env:
+          DEVOS_USERNAME: ${{ secrets.DEVOS_USER }}
+          DEVOS_PASSWORD: ${{ secrets.DEVOS_PASSWORD }}
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:

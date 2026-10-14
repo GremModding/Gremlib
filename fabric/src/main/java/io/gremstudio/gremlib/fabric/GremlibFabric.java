@@ -1,9 +1,9 @@
 package io.gremstudio.gremlib.fabric;
 
-import io.gremstudio.gremlib.Gremlib;
+import io.gremstudio.gremlib.impl.Gremlib;
 import io.gremstudio.gremlib.fabric.impl.item.FabricCreativeTabs;
 import io.gremstudio.gremlib.fabric.initializers.GremModInitializer;
-import io.gremstudio.gremlib.mod.GremModInitialization;
+import io.gremstudio.gremlib.api.mod.GremModInitialization;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
@@ -21,7 +21,6 @@ public class GremlibFabric implements ModInitializer {
     public void onInitialize() {
         new Gremlib(new GremFabricLoader());
         FabricLoader.getInstance().invokeEntrypoints(GremModInitializer.ENTRYPOINT_ID, GremModInitializer.class, GremModInitializer::onGremModInitalization);
-
 
         Map<ResourceKey<Registry<?>>, Registry<?>> registryMap = new HashMap<>();
 

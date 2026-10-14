@@ -1,10 +1,12 @@
 package io.gremstudio.gremlib.neoforge;
 
-import io.gremstudio.gremlib.Gremlib;
-import io.gremstudio.gremlib.client.GremlibClient;
-import io.gremstudio.gremlib.mod.GremModInitialization;
-import io.gremstudio.gremlib.multiloader.Loader;
+import io.gremstudio.gremlib.api.multiloader.client.EntityRendererAPI;
+import io.gremstudio.gremlib.impl.Gremlib;
+import io.gremstudio.gremlib.impl.client.GremlibClient;
+import io.gremstudio.gremlib.api.mod.GremModInitialization;
+import io.gremstudio.gremlib.api.multiloader.Loader;
 import io.gremstudio.gremlib.neoforge.impl.block.BlockEntityHandler;
+import io.gremstudio.gremlib.neoforge.impl.client.EntityRendererImpl;
 import io.gremstudio.gremlib.neoforge.impl.item.NeoCreativeTabs;
 import io.gremstudio.gremlib.neoforge.impl.resources.PackLoaderImpl;
 import io.gremstudio.gremlib.neoforge.initializers.GremModInitalizationEvent;
@@ -31,11 +33,11 @@ public class GremlibNeoforge {
         modBus.register(BlockEntityHandler.class);
         modBus.register(NeoCreativeTabs.class);
         modBus.register(PackLoaderImpl.class);
+        modBus.register(EntityRendererImpl.class);
     }
 
     @SubscribeEvent
     public void onConstruct(FMLConstructModEvent event) {
-
         gremlib = new Gremlib(MODLOADER);
 
         Gremlib.INSTANCE.getLogger().info("onConstruct");
@@ -47,12 +49,13 @@ public class GremlibNeoforge {
     }
 
     @SubscribeEvent
-    public void onClientSetup(FMLClientSetupEvent event) {
-        new GremlibClient();
-    }
-
-    @SubscribeEvent
     public void onRegistration(RegisterEvent event) {
         GremModInitialization.fireRegistry(event.getRegistry());
+    }
+
+    // FMLClient seems to be after registration is done, so any post registration client stuff is safe.
+    @SubscribeEvent
+    public void onClientSetup(FMLClientSetupEvent event) {
+        GremModInitialization.initalizeClient();
     }
 }

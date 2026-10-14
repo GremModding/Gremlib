@@ -1,6 +1,6 @@
 package io.gremstudio.gremtest.registry;
 
-import io.gremstudio.gremlib.multiloader.item.CreativeTabAPI;
+import io.gremstudio.gremlib.api.multiloader.item.CreativeTabAPI;
 import io.gremstudio.gremtest.Gremtest;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

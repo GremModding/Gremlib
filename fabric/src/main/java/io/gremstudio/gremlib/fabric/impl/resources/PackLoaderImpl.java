@@ -1,6 +1,6 @@
 package io.gremstudio.gremlib.fabric.impl.resources;
 
-import io.gremstudio.gremlib.mod.GremMod;
+import io.gremstudio.gremlib.api.mod.GremMod;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;

@@ -23,8 +23,8 @@ repositories {
 
 dependencies {
     implementation("net.fabricmc:fabric-loom:1.17-SNAPSHOT")
-    implementation("net.neoforged:moddev-gradle:2.0.144")
-    implementation("me.modmuss50:mod-publish-plugin:2.2.0")
+    implementation("net.neoforged:moddev-gradle:2.0.+")
+    implementation("me.modmuss50:mod-publish-plugin:2.2.+")
 }
 
 gradlePlugin {

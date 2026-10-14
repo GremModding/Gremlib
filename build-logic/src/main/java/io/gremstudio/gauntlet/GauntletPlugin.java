@@ -3,32 +3,29 @@ package io.gremstudio.gauntlet;
 import io.gremstudio.gauntlet.ext.GauntletSettingsExt;
 import io.gremstudio.gauntlet.ext.LoaderExt;
 import io.gremstudio.gauntlet.ext.ModDetailsExt;
+import io.gremstudio.gauntlet.task.NukeLoomCacheTask;
 import io.gremstudio.gauntlet.util.FileUtil;
 import io.gremstudio.gauntlet.util.Loaders;
+import io.gremstudio.gauntlet.util.RunUtil;
+import net.fabricmc.loom.LoomCompanionGradlePlugin;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.api.fabricapi.FabricApiExtension;
-import net.fabricmc.loom.configuration.ide.RunConfigSettings;
 import net.neoforged.moddevgradle.dsl.NeoForgeExtension;
 import net.neoforged.moddevgradle.dsl.RunModel;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.*;
-import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.attributes.Attribute;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.BasePluginExtension;
 import org.gradle.api.plugins.JavaLibraryPlugin;
 import org.gradle.api.plugins.JavaPluginExtension;
-import org.gradle.api.provider.Provider;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
-import org.gradle.api.tasks.AbstractCopyTask;
-import org.gradle.api.tasks.SourceSetContainer;
-import org.gradle.api.tasks.SourceTask;
-import org.gradle.api.tasks.TaskContainer;
+import org.gradle.api.tasks.*;
 import org.gradle.api.tasks.compile.JavaCompile;
 import org.gradle.api.tasks.javadoc.Javadoc;
 import org.gradle.external.javadoc.CoreJavadocOptions;
@@ -88,7 +85,9 @@ public class GauntletPlugin implements Plugin<Project> {
                 project.getDependencies().add("annotationProcessor", "net.msrandom:multiplatform-processor:1.0.7");
                 project.getDependencies().add("compileOnly", "net.msrandom:multiplatform-annotations:1.0.0");
 
-                ((JavaCompile)project.getTasks().getByName("compileJava")).getOptions().getCompilerArgs().add("-AgenerateExpectStubs");
+                project.getTasks().named("compileJava",JavaCompile.class, task -> {
+                    task.getOptions().getCompilerArgs().add("-AgenerateExpectStubs");
+                });
             }
         });
     }
@@ -98,6 +97,13 @@ public class GauntletPlugin implements Plugin<Project> {
             action.setGroup("gauntlet");
             action.setDescription("Test lmfao");
             //this.testLoaderExt.set(loader)
+        });
+
+        project.getTasks().register("nukeLoomCache", NukeLoomCacheTask.class, (action) -> {
+            action.setGroup("gauntlet");
+            action.setDescription("Designed to immediately nuke your loom cache. Recommended to use if running into issues with loom.");
+            // Fun fact! All loom caches are stored in a random part of Edina Minnesota.
+            // Fuck you Edina.
         });
 
     }
@@ -129,12 +135,14 @@ public class GauntletPlugin implements Plugin<Project> {
 
         String[] elements = new String[]{"apiElements", "runtimeElements", "sourcesElements"/*, "javadocElements"*/};
         for (String element : elements) {
-            project.getConfigurations().getByName(element).outgoing(configurationPublications -> {
-                configurationPublications.capability(project.getGroup() + ":" + modDetails.getModID().get() + ":" + modDetails.getModVersion().get());
-                configurationPublications.capability(project.getGroup() + ":" + modDetails.getModID().get() + ":" + modDetails.getModVersion().get() + "+" + modDetails.getMinecraftVersion().get());
-                if (isMultiloader) {
-                    configurationPublications.capability(project.getGroup() + ":" + modDetails.getModID().get() + ":" + modDetails.getModVersion().get() + "+" + project.getName() + modDetails.getMinecraftVersion().get());
-                }
+            project.getConfigurations().named(element, config -> {
+                config.outgoing(configurationPublications -> {
+                    configurationPublications.capability(project.getGroup() + ":" + modDetails.getModID().get() + ":" + modDetails.getModVersion().get());
+                    configurationPublications.capability(project.getGroup() + ":" + modDetails.getModID().get() + ":" + modDetails.getModVersion().get() + "+" + modDetails.getMinecraftVersion().get());
+                    if (isMultiloader) {
+                        configurationPublications.capability(project.getGroup() + ":" + modDetails.getModID().get() + ":" + modDetails.getModVersion().get() + "+" + project.getName() + "-" + modDetails.getMinecraftVersion().get());
+                    }
+                });
             });
 
             project.getExtensions().getByType(PublishingExtension.class).getPublications().configureEach(publication -> {
@@ -144,11 +152,11 @@ public class GauntletPlugin implements Plugin<Project> {
             });
         }
 
-        project.getTasks().getByName("sourcesJar", task -> {
+        project.getTasks().named("sourcesJar", task -> {
             renameLicense(project, modDetails, (Jar)task);
         });
 
-        project.getTasks().getByName("jar", task -> {
+        project.getTasks().named("jar", task -> {
             Jar jarTask = ((Jar) task);
 
             renameLicense(project, modDetails, jarTask);
@@ -165,7 +173,7 @@ public class GauntletPlugin implements Plugin<Project> {
             });
         });
 
-        project.getTasks().getByName("javadoc", task -> {
+        project.getTasks().named("javadoc", task -> {
             Javadoc docTask = (Javadoc) task;
             if (Boolean.parseBoolean(settings.getQuietJavadocExport().get()) && docTask.getOptions() instanceof CoreJavadocOptions options) {
                 options.addStringOption("Xdoclint:-missing", "-quiet");
@@ -173,7 +181,7 @@ public class GauntletPlugin implements Plugin<Project> {
         });
 
         // Will be replaced with commented version below, eventually at least.
-        project.getTasks().getByName("processResources", task -> {
+        project.getTasks().named("processResources", task -> {
             ProcessResources processTask = (ProcessResources) task;
 
             Map<String, String> shared = new HashMap<>();
@@ -194,7 +202,7 @@ public class GauntletPlugin implements Plugin<Project> {
             processTask.filesMatching(List.of("pack.mcmeta", "fabric.mod.json"), file -> file.expand(jsonShared));
         });
 
-        /*project.getTasks().getByName("processResources", task -> {
+        /*project.getTasks().named("processResources", task -> {
             ProcessResources processTask = (ProcessResources) task;
 
             Map<String, Object> shared = new HashMap<>();
@@ -255,69 +263,22 @@ public class GauntletPlugin implements Plugin<Project> {
         project.getDependencies().add("compileOnly", "net.fabricmc:sponge-mixin:" + gremSettings.getFabricMixinVersion().get() + "+mixin." + gremSettings.getMixinVersion().get());
         project.getDependencies().add("compileOnly", "io.github.llamalad7:mixinextras-common:" + gremSettings.getMixinExtrasVersion().get());
         project.getDependencies().add("annotationProcessor", "io.github.llamalad7:mixinextras-common:" + gremSettings.getMixinExtrasVersion().get());
-
-        Configuration commonJava = project.getConfigurations().create("commonJava", configuration -> {
-            configuration.setCanBeResolved(false);
-            configuration.setCanBeConsumed(true);
-        });
-
-        Configuration commonResources = project.getConfigurations().create("commonResources", configuration -> {
-            configuration.setCanBeResolved(false);
-            configuration.setCanBeConsumed(true);
-        });
-
-        SourceSetContainer sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
-
-        project.getArtifacts().add(commonJava.getName(), sourceSets.getByName("main").getJava().getSourceDirectories().getSingleFile());
-        project.getArtifacts().add(commonResources.getName(), sourceSets.getByName("main").getResources().getSourceDirectories().getSingleFile());
     }
 
-    private void sharedLoadersConfig(Project project, ModDetailsExt modDetails) {
-        Configuration commonJava = project.getConfigurations().create("commonJava", configuration -> {
-            configuration.setCanBeResolved(true);
-        });
-
-        Configuration commonResources = project.getConfigurations().create("commonResources", configuration -> {
-            configuration.setCanBeResolved(true);
-        });
+    // So in Multiloader, they do this sort of thing through project dependencies.
+    // However, Expect/Actual requires we actually link the SourceSets, which honestly is probably for the best.
+    private void linkToCommon(Project project, ModDetailsExt modDetails) {
+        SourceSet projMain = project.getExtensions().getByType(SourceSetContainer.class).named("main").get();
+        SourceSet commonMain = project.project(":common").getExtensions().getByType(SourceSetContainer.class).named("main").get();
+        projMain.getJava().srcDirs(commonMain.getJava().getSrcDirs());
+        projMain.getResources().srcDirs(commonMain.getResources().getSrcDirs());
 
         Dependency dep = project.getDependencies().create(project.project(":common"));
 
         ((ProjectDependency)dep).capabilities(cap -> cap.requireCapability(project.getGroup() + ":" + modDetails.getModID().get()));
         Attribute<String> loaderAttribute = Attribute.of("io.github.mcgradleconventions.loader", String.class);
         ((ProjectDependency)dep).attributes(attributes -> attributes.attribute(loaderAttribute, "common"));
-        project.getConfigurations().getByName("compileOnly", compOnly -> {
-            compOnly.getDependencies().add(dep);
-
-        });
-
-        project.getDependencies().add("commonJava", project.project(":common"));
-        project.getDependencies().add("commonResources", project.project(":common"));
-
-
-
-        TaskContainer tasks = project.getTasks();
-        tasks.getByName("processResources", task -> {
-            task.dependsOn(commonResources);
-            ((AbstractCopyTask)task).from(commonResources);
-        });
-
-        tasks.getByName("compileJava", task -> {
-            task.dependsOn(commonJava);
-            ((SourceTask)task).source(commonJava);
-        });
-
-        tasks.getByName("javadoc", task -> {
-            task.dependsOn(commonJava);
-            ((SourceTask)task).source(commonJava);
-        });
-
-        tasks.getByName("sourcesJar", task -> {
-            task.dependsOn(commonJava);
-            ((AbstractCopyTask)task).from(commonJava);
-            task.dependsOn(commonResources);
-            ((AbstractCopyTask)task).from(commonResources);
-        });
+        project.getConfigurations().named("compileOnly", config -> config.getDependencies().add(dep));
     }
 
     private void setupMavenPublishingForProject(Project project, ModDetailsExt modDetails) {
@@ -327,7 +288,7 @@ public class GauntletPlugin implements Plugin<Project> {
 
         publish.getPublications().register("mavenJava", MavenPublication.class, maven -> {
             maven.setArtifactId(modDetails.getModID().get());
-            maven.from(project.getComponents().getByName("java"));
+            maven.from(project.getComponents().named("java").get());
         });
 
         publish.getRepositories().maven(maven -> {
@@ -339,32 +300,46 @@ public class GauntletPlugin implements Plugin<Project> {
     }
 
     private void configureFabric(Project project, ModDetailsExt modDetails, LoaderExt loader) {
-        sharedLoadersConfig(project, modDetails);
+        linkToCommon(project, modDetails);
+
 
         project.getPluginManager().withPlugin("net.fabricmc.fabric-loom", (action) -> {
+            project.project(":common").getPluginManager().apply(LoomCompanionGradlePlugin.class);
+
             project.getDependencies().add("minecraft", "com.mojang:minecraft:" + modDetails.getMinecraftVersion().get());
             project.getDependencies().add("implementation", "net.fabricmc:fabric-loader:" + loader.getLoaderVersion().get());
 
             LoomGradleExtensionAPI gradleExtension = project.getExtensions().getByType(LoomGradleExtensionAPI.class);
 
+            gradleExtension.mods(mod -> mod.create(modDetails.getModID().get(), settings -> {
+                SourceSet projMain = project.getExtensions().getByType(SourceSetContainer.class).named("main").get();
+                SourceSet commonMain = project.project(":common").getExtensions().getByType(SourceSetContainer.class).named("main").get();
+
+                settings.sourceSet(projMain);
+                settings.sourceSet(commonMain);
+            }));
+
             File awFile = project.project(":common").file("src/main/resources/" + modDetails.getModID().get() + ".classtweaker");
             if (awFile.exists()) {
-                project.getLogger().lifecycle("TESTME");
                 gradleExtension.getAccessWidenerPath().set(awFile);
                 gradleExtension.getEnableTransitiveAccessWideners().set(true);
             }
 
-            RunConfigSettings clientRun = gradleExtension.getRunConfigs().getByName("client");
-            clientRun.client();
-            clientRun.getDisplayName().set("Fabric Client");
-            clientRun.getGenerateRunConfig().set(true);
-            clientRun.getRunDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/client"));
+            gradleExtension.getRunConfigs().named("client", (config) -> {
+                config.client();
+                config.getDisplayName().set("Fabric Client");
+                config.getGenerateRunConfig().set(true);
+                config.getJvmArguments().addAll(RunUtil.additionalJVMArgs());
+                config.getRunDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/client"));
+            });
 
-            RunConfigSettings serverRun = gradleExtension.getRunConfigs().getByName("server");
-            serverRun.server();
-            serverRun.getDisplayName().set("Fabric Server");
-            serverRun.getGenerateRunConfig().set(true);
-            serverRun.getRunDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/server"));
+            gradleExtension.getRunConfigs().named("server", (config) -> {
+                config.server();
+                config.getDisplayName().set("Fabric Server");
+                config.getGenerateRunConfig().set(true);
+                config.getJvmArguments().addAll(RunUtil.additionalJVMArgs());
+                config.getRunDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/server"));
+            });
 
             FabricApiExtension fapiExtension = project.getExtensions().getByType(FabricApiExtension.class);
             fapiExtension.configureDataGeneration((dataGen) -> {
@@ -372,12 +347,15 @@ public class GauntletPlugin implements Plugin<Project> {
                 dataGen.getOutputDirectory().set(FileUtil.createFolderWithProjectFile(project.project(":common"), "src/main/generated"));
             });
 
-            gradleExtension.getRunConfigs().getByName("datagen").getDisplayName().set("Fabric Datagen");
+            gradleExtension.getRunConfigs().named("datagen", (config) -> {
+                config.getDisplayName().set("Fabric Datagen");
+                config.getJvmArguments().addAll(RunUtil.additionalJVMArgs());
+            });
         });
     }
 
     private void configureNeoforge(Project project, ModDetailsExt modDetails, LoaderExt loader) {
-        sharedLoadersConfig(project, modDetails);
+        linkToCommon(project, modDetails);
 
         JavaPluginExtension javaPlugin = project.getExtensions().getByType(JavaPluginExtension.class);
 
@@ -406,38 +384,45 @@ public class GauntletPlugin implements Plugin<Project> {
                 run.systemProperty("neoforge.enabledGameTestNamespaces", modDetails.getModID().get());
             });
 
+            runs.clear();
+
             runs.register("client", clientRun -> {
                 clientRun.client();
+                clientRun.getJvmArguments().addAll(RunUtil.additionalJVMArgs());
                 clientRun.getGameDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/client"));
                 clientRun.getIdeName().set("Neoforge Client (:neoforge)");
             });
 
             runs.register("server", serverRun -> {
                 serverRun.server();
+                serverRun.getJvmArguments().addAll(RunUtil.additionalJVMArgs());
                 serverRun.getGameDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/server"));
                 serverRun.getIdeName().set("Neoforge Server (:neoforge)");
             });
 
             runs.register("data", datagenRun -> {
                 datagenRun.clientData();
+                datagenRun.getJvmArguments().addAll(RunUtil.additionalJVMArgs());
                 datagenRun.getGameDirectory().set(FileUtil.createFolderWithProjectFile(project, "run/datagen"));
                 datagenRun.getIdeName().set("Neoforge Datagen (:neoforge)");
                 datagenRun.getProgramArguments().addAll("--mod", modDetails.getModID().get(), "--all", "--output", project.getRootProject().file("src/generated/resources/").getAbsolutePath(), "--existing", project.getRootProject().file("src/main/resources/").getAbsolutePath());
             });
 
             neoExt.getMods().register(modDetails.getModID().get(), mod -> {
-                mod.sourceSet(javaPlugin.getSourceSets().getByName("main"));
+                mod.sourceSet(javaPlugin.getSourceSets().named("main").get());
             });
         });
 
-        javaPlugin.getSourceSets().getByName("main").resources(resources -> {
-            resources.srcDir(project.project(":common").file("src/main/generated"));
+        javaPlugin.getSourceSets().named("main", main -> {
+            main.resources(resources -> {
+                resources.srcDir(project.project(":common").file("src/main/generated"));
+            });
         });
     }
 
     private void renameLicense(Project project, ModDetailsExt modDetails, Jar task) {
         task.from(project.getRootProject().file("LICENSE"), file -> {
-            file.rename(name -> name + "_" + modDetails.getMetadata().getModName());
+            file.rename(name -> modDetails.getMetadata().getModName().get().toLowerCase() + " " + name);
         });
     }
 
