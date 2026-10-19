@@ -273,7 +273,7 @@ public class GauntletPlugin implements Plugin<Project> {
         projMain.getJava().srcDirs(commonMain.getJava().getSrcDirs());
         projMain.getResources().srcDirs(commonMain.getResources().getSrcDirs());
 
-        Dependency dep = project.getDependencies().create(project.project(":common"));
+        Dependency dep = project.getDependencies().project(":common");
 
         ((ProjectDependency)dep).capabilities(cap -> cap.requireCapability(project.getGroup() + ":" + modDetails.getModID().get()));
         Attribute<String> loaderAttribute = Attribute.of("io.github.mcgradleconventions.loader", String.class);
@@ -291,12 +291,14 @@ public class GauntletPlugin implements Plugin<Project> {
             maven.from(project.getComponents().named("java").get());
         });
 
-        publish.getRepositories().maven(maven -> {
-            maven.setUrl("https://mvn.devos.one/" + relMode.toLowerCase(Locale.ROOT));
-            maven.setName("devOS");
-            maven.getCredentials().setUsername(project.getProviders().environmentVariable("DEVOS_USERNAME").orElse(project.findProperty("devOSUsername").toString()).get());
-            maven.getCredentials().setPassword(project.getProviders().environmentVariable("DEVOS_PASSWORD").orElse(project.findProperty("devOSPassword").toString()).get());
-        });
+        if (project.getProviders().environmentVariable("DEVOS_USERNAME").isPresent() || project.findProperty("devOSUsername") != null) {
+            publish.getRepositories().maven(maven -> {
+                maven.setUrl("https://mvn.devos.one/" + relMode.toLowerCase(Locale.ROOT));
+                maven.setName("devOS");
+                maven.getCredentials().setUsername(project.getProviders().environmentVariable("DEVOS_USERNAME").orElse(project.findProperty("devOSUsername").toString()).get());
+                maven.getCredentials().setPassword(project.getProviders().environmentVariable("DEVOS_PASSWORD").orElse(project.findProperty("devOSPassword").toString()).get());
+            });
+        }
     }
 
     private void configureFabric(Project project, ModDetailsExt modDetails, LoaderExt loader) {
