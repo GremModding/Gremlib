@@ -8,6 +8,7 @@ import io.gremstudio.gremlib.api.multiloader.Loader;
 import io.gremstudio.gremlib.neoforge.impl.block.BlockEntityHandler;
 import io.gremstudio.gremlib.neoforge.impl.client.EntityRendererImpl;
 import io.gremstudio.gremlib.neoforge.impl.item.NeoCreativeTabs;
+import io.gremstudio.gremlib.neoforge.impl.networking.NetworkImpl;
 import io.gremstudio.gremlib.neoforge.impl.resources.PackLoaderImpl;
 import io.gremstudio.gremlib.neoforge.initializers.GremModInitalizationEvent;
 import net.neoforged.bus.api.IEventBus;
@@ -34,6 +35,7 @@ public class GremlibNeoforge {
         modBus.register(NeoCreativeTabs.class);
         modBus.register(PackLoaderImpl.class);
         modBus.register(EntityRendererImpl.class);
+        modBus.register(NetworkImpl.PayloadImpl.class);
     }
 
     @SubscribeEvent
