@@ -5,6 +5,10 @@ import io.gremstudio.gremlib.fabric.impl.item.FabricCreativeTabs;
 import io.gremstudio.gremlib.fabric.initializers.GremModInitializer;
 import io.gremstudio.gremlib.api.mod.GremModInitialization;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.item.v1.FabricItem;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,6 +31,7 @@ public class GremlibFabric implements ModInitializer {
         for (Map.Entry<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> entry : BuiltInRegistries.REGISTRY.entrySet()) {
             registryMap.put((ResourceKey<Registry<?>>) entry.getKey(), entry.getValue());
         }
+
 
         // Registries are fascinating, given the fact that there is a chain of dependencies of each registry.
         // Personally, I always thought "Oh yeah all you need is Blocks and Items", but I believe you need to do Entities in between the two.

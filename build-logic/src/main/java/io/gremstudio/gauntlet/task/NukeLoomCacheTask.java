@@ -19,7 +19,7 @@ public class NukeLoomCacheTask extends DefaultTask {
 
         File otherLoomCacheLocation = new File(projectDir + "/.gradle/loom-cache");
         if (otherLoomCacheLocation.exists()) {
-            otherLoomCacheLocation.delete(); // WE BRING THE BOOM
+            otherLoomCacheLocation.delete(); // THATS WHAT WE DO
         }
     }
 }

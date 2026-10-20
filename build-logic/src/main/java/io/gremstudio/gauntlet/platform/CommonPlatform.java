@@ -9,8 +9,8 @@ import org.gradle.api.Project;
 import java.io.File;
 
 public class CommonPlatform extends AbstractPlatform {
-    public CommonPlatform(String platformName) {
-        super(platformName);
+    public CommonPlatform() {
+        super("common");
     }
 
     public void configurePlatform(Project project, ModDetailsExt modDetails, LoaderExt loader, GauntletSettingsExt gremSettings) {
